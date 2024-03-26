@@ -1,5 +1,6 @@
-import 'package:cattlefarming/Screens/signIn.dart';
-import 'package:cattlefarming/Screens/signup.dart';
+import 'package:cattlefarming/Screens/homeScreen.dart';
+import 'package:cattlefarming/Screens/signInScreen.dart';
+import 'package:cattlefarming/Screens/signupScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,10 +16,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.light(
+          primary: Color(0xFF02B7C8), // or any color you want
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color(0xFF02B7C8), // or any color you want
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // or any color you want
+        ),
         useMaterial3: true,
       ),
-      home: const SignUp(),
+      home: const HomeScreen(),
     );
   }
 }

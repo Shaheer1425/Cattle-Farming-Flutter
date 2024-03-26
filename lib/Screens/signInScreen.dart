@@ -1,4 +1,4 @@
-import 'package:cattlefarming/Screens/signup.dart';
+import 'package:cattlefarming/Screens/signupScreen.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
