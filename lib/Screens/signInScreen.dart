@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Screens/homeScreen.dart';
 import 'package:cattlefarming/Screens/signupScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,6 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(
                           color: Color(0xFF02B7C8),
                           fontSize: 27,
-                          fontFamily: 'Jomolhari',
                         ),
                       )),
                   const Positioned(
@@ -42,7 +42,6 @@ class _SignInState extends State<SignIn> {
                       child: Text(
                         "Please Login or Sign Up",
                         style: TextStyle(
-                          fontFamily: 'Jomolhari',
                           color: Colors.black,
                           fontSize: 20,
                         ),
@@ -60,9 +59,7 @@ class _SignInState extends State<SignIn> {
                 controller: emailcon,
                 decoration: const InputDecoration(
                   hintText: 'Email or Phone',
-                  hintStyle: TextStyle(
-                    fontFamily: 'Jomolhari',
-                  ),
+                  hintStyle: TextStyle(),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                 ),
@@ -87,9 +84,7 @@ class _SignInState extends State<SignIn> {
                 obscureText: !isVisibal,
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  hintStyle: TextStyle(
-                    fontFamily: 'Jomolhari',
-                  ),
+                  hintStyle: TextStyle(),
                   suffixIcon: IconButton(
                     icon: Icon(
                       isVisibal ? Icons.visibility : Icons.visibility_off,
@@ -106,21 +101,17 @@ class _SignInState extends State<SignIn> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
             child: const Row(
               children: [
                 Text(
                   "Don't have an account?",
-                  style: TextStyle(
-                    fontFamily: 'Jomolhari',
-                  ),
+                  style: TextStyle(),
                 ),
                 InkWell(
-                  //onTap: ,
                   child: Text(
-                    " Sign Up",
-                    style: TextStyle(
-                        fontFamily: 'Jomolhari', color: Color(0xFF02B7C8)),
+                    "Sign Up",
+                    style: TextStyle(color: Color(0xFF02B7C8)),
                   ),
                 ),
               ],
@@ -137,11 +128,14 @@ class _SignInState extends State<SignIn> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                   const Color(0xFF039BA8),
                 )),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SignUp(),
+                  ));
+                },
                 child: const Text(
                   "Sign In",
                   style: TextStyle(
-                    fontFamily: 'Jomolhari',
                     color: Colors.white,
                     fontSize: 25,
                   ),

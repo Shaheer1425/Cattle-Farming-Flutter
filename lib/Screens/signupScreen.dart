@@ -1,3 +1,5 @@
+import 'package:cattlefarming/Screens/homeScreen.dart';
+import 'package:cattlefarming/Screens/signInScreen.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -49,7 +51,6 @@ class _SignUpState extends State<SignUp> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 40,
-                              fontFamily: 'Jomolhari',
                               fontWeight: FontWeight.bold),
                         ))
                   ],
@@ -65,9 +66,7 @@ class _SignUpState extends State<SignUp> {
                   controller: namecon,
                   decoration: const InputDecoration(
                     hintText: 'Name',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Jomolhari',
-                    ),
+                    hintStyle: TextStyle(),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
@@ -88,9 +87,7 @@ class _SignUpState extends State<SignUp> {
                   controller: emailcon,
                   decoration: const InputDecoration(
                     hintText: 'Email',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Jomolhari',
-                    ),
+                    hintStyle: TextStyle(),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
@@ -111,9 +108,7 @@ class _SignUpState extends State<SignUp> {
                   controller: passcon,
                   decoration: const InputDecoration(
                     hintText: 'Password',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Jomolhari',
-                    ),
+                    hintStyle: TextStyle(),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
@@ -134,9 +129,7 @@ class _SignUpState extends State<SignUp> {
                   controller: confirmPassCon,
                   decoration: const InputDecoration(
                     hintText: 'Confirm Password',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Jomolhari',
-                    ),
+                    hintStyle: TextStyle(),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
@@ -157,9 +150,7 @@ class _SignUpState extends State<SignUp> {
                   controller: namecon,
                   decoration: const InputDecoration(
                     hintText: 'Contact',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Jomolhari',
-                    ),
+                    hintStyle: TextStyle(),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
@@ -246,21 +237,18 @@ class _SignUpState extends State<SignUp> {
               height: 20,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
               child: const Row(
                 children: [
                   Text(
                     "Already have an account?",
-                    style: TextStyle(
-                      fontFamily: 'Jomolhari',
-                    ),
+                    style: TextStyle(),
                   ),
                   InkWell(
                     //onTap: ,
                     child: Text(
                       " Sign In",
-                      style: TextStyle(
-                          fontFamily: 'Jomolhari', color: Color(0xFF02B7C8)),
+                      style: TextStyle(color: Color(0xFF02B7C8)),
                     ),
                   ),
                 ],
@@ -277,11 +265,14 @@ class _SignUpState extends State<SignUp> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                     const Color(0xFF039BA8),
                   )),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ));
+                  },
                   child: const Text(
                     "Sign Up",
                     style: TextStyle(
-                      fontFamily: 'Jomolhari',
                       color: Colors.white,
                       fontSize: 25,
                     ),

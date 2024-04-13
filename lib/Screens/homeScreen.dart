@@ -13,20 +13,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 30,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
-            onPressed: () {
-              // Add your onPressed callback here
-            },
           ),
           title: Text(
             "Cattle Management",
             style: TextStyle(
-              fontFamily: 'Jomolhari',
               fontSize: 25,
               color: Colors.white,
             ),
@@ -43,6 +44,110 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              const DrawerHeader(
+                //  padding : const EdgeInsets.fromLTRB(10.0, 16.0, 16.0, 8.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF02B7C8),
+                ),
+                child: Center(
+                    child: Text(
+                  'Cattle Management',
+                  style: TextStyle(
+                    fontFamily: 'Jomolhari',
+                    fontSize: 25,
+                    color: Colors.white,
+                  ),
+                )),
+              ),
+              ListTile(
+                title: const Text('Farm Account'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Image.asset(
+                  "assets/images/pkr.png",
+                  width: 25,
+                ),
+                title: const Text('Transaction Report'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Milk Report'),
+                leading: Image.asset(
+                  "assets/images/milk-bottle.png",
+                  width: 25,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Weight Report'),
+                leading: const Icon(
+                  Icons.monitor_weight,
+                  color: const Color(0xFF443E3E),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Temperature Report'),
+                leading: Image.asset(
+                  "assets/images/temperature.png",
+                  width: 25,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Food Stock'),
+                leading: Image.asset(
+                  "assets/images/foodicon.png",
+                  width: 25,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Food Consume Report'),
+                leading: Image.asset(
+                  "assets/images/foodicon.png",
+                  width: 25,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Other Farm'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('View Other Farm'),
+                leading: const Icon(
+                  Icons.remove_red_eye,
+                  color: const Color(0xFF443E3E),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
         body: GridView.count(
           crossAxisCount: 2,
@@ -64,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "Cattle",
-                      style: TextStyle(fontFamily: 'Jomolhari', fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
@@ -87,12 +192,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 100,
                       height: 70,
                       child: Image.asset(
-                        "assets/images/cattlepic.png",
+                        "assets/images/milk.png",
                       ),
                     ),
                     Text(
                       "Milk Record",
-                      style: TextStyle(fontFamily: 'Jomolhari', fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
@@ -115,12 +220,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 100,
                       height: 70,
                       child: Image.asset(
-                        "assets/images/cattlepic.png",
+                        "assets/images/event.png",
                       ),
                     ),
                     Text(
                       "Events",
-                      style: TextStyle(fontFamily: 'Jomolhari', fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
@@ -143,12 +248,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 100,
                       height: 70,
                       child: Image.asset(
-                        "assets/images/cattlepic.png",
+                        "assets/images/transaction.png",
                       ),
                     ),
                     Text(
                       "Transactions",
-                      style: TextStyle(fontFamily: 'Jomolhari', fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
@@ -171,12 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 100,
                       height: 70,
                       child: Image.asset(
-                        "assets/images/cattlepic.png",
+                        "assets/images/farm setup.png",
                       ),
                     ),
                     Text(
                       "Farm Setup",
-                      style: TextStyle(fontFamily: 'Jomolhari', fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
@@ -199,12 +304,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 100,
                       height: 70,
                       child: Image.asset(
-                        "assets/images/cattlepic.png",
+                        "assets/images/reports.png",
                       ),
                     ),
                     Text(
                       "Report",
-                      style: TextStyle(fontFamily: 'Jomolhari', fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
@@ -219,138 +324,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: _navBar() // BottomNavigationBar(
-        //   currentIndex: _currentIndex,
-        //   //   backgroundColor: Theme.of(context).primaryColor,
-        //   backgroundColor: Colors.white,
-        //   items: [
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.home),
-        //       label: 'Home',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.search),
-        //       label: 'Search',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.person),
-        //       label: 'Profile',
-        //     ),
-        //   ],
-        //   onTap: (index) {
-        //     setState(() {
-        //       _currentIndex = index;
-        //     });
-        //   },
-        // ),
-        );
+        bottomNavigationBar: _navBar());
   }
 
-  /* Widget _navBar() {
-    return Container(
-      height: 70,
-      color: const Color(0xFF02B7C8),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
-        child: Container(
-          width: 300,
-          height: 70,
-          decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(200.0),
-              // border: Border.all(color: const Color(0xFF02B7C8)),
-              border: Border.all(color: Colors.white)),
-          child: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Search',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-          ),
-        ),
-      ),
-    );
-  }*/
-  /* Widget _navBar() {
-    return Container(
-      height: 70,
-      color: const Color(0xFF02B7C8),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Left Icon (Add to Cart)
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.add_shopping_cart),
-                  onPressed: () {
-                    // Handle Add to Cart action
-                  },
-                ),
-              ),
-            ),
-            // Add some space between icons
-            // Center Icon (Home)
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.home),
-                  onPressed: () {
-                    // Handle Home action
-                  },
-                ),
-              ),
-            ),
-            // Add some space between icons
-            // Right Icon (Settings)
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    // Handle Settings action
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
   Widget _navBar() {
     return Container(
       height: 70,
