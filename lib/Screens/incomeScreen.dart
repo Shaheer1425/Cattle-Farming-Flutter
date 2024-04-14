@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Screens/expenseScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -362,7 +363,10 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                             backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF039BA8),
                         )),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => NewExpenseScreen()));
+                        },
                         child: const Text(
                           "Add Now",
                           style: TextStyle(

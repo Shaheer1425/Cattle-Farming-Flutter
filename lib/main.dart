@@ -1,5 +1,7 @@
+import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
 import 'package:cattlefarming/Screens/expenseScreen.dart';
 import 'package:cattlefarming/Screens/farmNameScreen.dart';
+import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/incomeScreen.dart';
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
 import 'package:cattlefarming/Screens/addMilkScreen.dart';
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: VaccineCourseScreen(),
+      home: SplashScreen(),
     );
   }
 }

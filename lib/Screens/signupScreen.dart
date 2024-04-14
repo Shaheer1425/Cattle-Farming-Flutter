@@ -191,6 +191,7 @@ class _SignUpState extends State<SignUp> {
                         this.roleSelected = newSelectedVal!;
                       });
                     },
+                    isExpanded: true,
                   ),
                 ),
               ),
@@ -209,13 +210,13 @@ class _SignUpState extends State<SignUp> {
                 child: SizedBox(
                   width: 240,
                   child: DropdownButton<String>(
-                    value: roleSelected,
+                    value: farmSelected,
                     underline: SizedBox(),
                     hint: Text("Select Farm"),
                     items: [
                       DropdownMenuItem<String>(
-                        value: "Select Farm",
-                        child: Text("Select Farm"),
+                        value: "Select Type",
+                        child: Text("Select Type"),
                       ),
                       ...farmItem.map((String e) {
                         return DropdownMenuItem<String>(
@@ -229,6 +230,7 @@ class _SignUpState extends State<SignUp> {
                         this.farmSelected = newSelectedVal!;
                       });
                     },
+                    isExpanded: true,
                   ),
                 ),
               ),

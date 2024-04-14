@@ -1,3 +1,11 @@
+import 'package:cattlefarming/Screens/addCattleScreen.dart';
+import 'package:cattlefarming/Screens/addMilkScreen.dart';
+import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
+import 'package:cattlefarming/Screens/fodderStockScreen.dart';
+import 'package:cattlefarming/Screens/incomeScreen.dart';
+import 'package:cattlefarming/Screens/temperatureScreen.dart';
+import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/weightScreen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -97,7 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: const Color(0xFF443E3E),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => WeightScreen()));
                 },
               ),
               ListTile(
@@ -107,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 25,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TemperatureScreen()));
                 },
               ),
               ListTile(
@@ -117,7 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 25,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => FodderStockScreen()));
                 },
               ),
               ListTile(
@@ -127,7 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 25,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => consumeFodderScreen()));
                 },
               ),
               ListTile(
@@ -156,113 +168,129 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/cattlepic.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AddCattle())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/cattlepic.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Cattle",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Cattle",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/milk.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => AddMilkScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/milk.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Milk Record",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Milk Record",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/event.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => VaccineCourseScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/event.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Events",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Events",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/transaction.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => NewIncomeScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/transaction.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Transactions",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Transactions",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
