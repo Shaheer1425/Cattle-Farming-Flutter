@@ -1,6 +1,5 @@
-import 'package:cattlefarming/Models/temperatureClass.dart';
 import 'package:cattlefarming/Models/weightClass.dart';
-import 'package:cattlefarming/Screens/temperatureScreen.dart';
+
 import 'package:cattlefarming/Screens/weightScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
