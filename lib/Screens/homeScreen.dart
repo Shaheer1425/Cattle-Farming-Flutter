@@ -1,10 +1,15 @@
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
 import 'package:cattlefarming/Screens/addMilkScreen.dart';
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
+import 'package:cattlefarming/Screens/events.dart';
+import 'package:cattlefarming/Screens/farmNameScreen.dart';
+import 'package:cattlefarming/Screens/farmSetup.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/incomeScreen.dart';
 import 'package:cattlefarming/Screens/temperatureScreen.dart';
+import 'package:cattlefarming/Screens/transactionScreen.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/weightScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  // int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TemperatureScreen()));
+                      builder: (context) => ViewTemperatureScreen()));
                 },
               ),
               ListTile(
@@ -233,8 +238,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => VaccineCourseScreen())),
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => EventsScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -265,8 +270,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => NewIncomeScreen())),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TransactionsScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -296,29 +301,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/farm setup.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => FarmSetupScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/farm setup.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Farm Setup",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Farm Setup",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -388,6 +397,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 35,
                   ),
                   onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
                     // Handle Add to Cart action
                   },
                 ),
@@ -399,6 +410,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onPressed: () {
                     // Handle Add to Cart action
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => FarmNameScreen()));
                   },
                 ),
               ],

@@ -1,4 +1,3 @@
-import 'package:cattlefarming/Screens/homeScreen.dart';
 import 'package:cattlefarming/Screens/signupScreen.dart';
 import 'package:flutter/material.dart';
 

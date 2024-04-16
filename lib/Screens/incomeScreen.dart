@@ -42,6 +42,13 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
   String? incomeTypeSelected;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isMilkSaleSelected = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

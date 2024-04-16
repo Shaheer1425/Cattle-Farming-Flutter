@@ -38,6 +38,13 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
   String? expenseTypeSelected;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isFodderSelected = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

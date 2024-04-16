@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Screens/vaccineInjectScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -79,6 +80,7 @@ class _VaccineCourseScreenState extends State<VaccineCourseScreen> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
+                  keyboardType: TextInputType.number,
                 ),
               ),
             ),
@@ -117,7 +119,20 @@ class _VaccineCourseScreenState extends State<VaccineCourseScreen> {
                         backgroundColor: MaterialStateProperty.all<Color>(
                       const Color(0xFF039BA8),
                     )),
-                    onPressed: () {},
+                    onPressed: () {
+                      final totalDoses = int.tryParse(totalDosecon.text) ?? 0;
+                      if (totalDoses > 0) {
+                        // Navigate to InjectVaccinationScreen with the totalDoses value
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VaccineInjectScreen(
+                              totalDoses: totalDoses,
+                            ),
+                          ),
+                        );
+                      }
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

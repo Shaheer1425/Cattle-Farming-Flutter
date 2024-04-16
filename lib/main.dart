@@ -1,6 +1,8 @@
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
+import 'package:cattlefarming/Screens/events.dart';
 import 'package:cattlefarming/Screens/expenseScreen.dart';
 import 'package:cattlefarming/Screens/farmNameScreen.dart';
+import 'package:cattlefarming/Screens/farmSetup.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/incomeScreen.dart';
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
@@ -10,7 +12,11 @@ import 'package:cattlefarming/Screens/signInScreen.dart';
 import 'package:cattlefarming/Screens/signupScreen.dart';
 import 'package:cattlefarming/Screens/splashScreen.dart';
 import 'package:cattlefarming/Screens/temperatureScreen.dart';
+import 'package:cattlefarming/Screens/transactionScreen.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/vaccineInjectScreen.dart';
+import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
+import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:cattlefarming/Screens/weightScreen.dart';
 import 'package:flutter/material.dart';
 
