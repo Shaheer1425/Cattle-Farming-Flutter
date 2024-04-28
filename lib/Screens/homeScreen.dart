@@ -1,9 +1,10 @@
 import 'package:cattlefarming/Screens/FodderScreen.dart';
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
 import 'package:cattlefarming/Screens/addMilkScreen.dart';
+import 'package:cattlefarming/Screens/adminDashbordScreen.dart';
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
 import 'package:cattlefarming/Screens/events.dart';
-import 'package:cattlefarming/Screens/farmNameScreen.dart';
+import 'package:cattlefarming/Screens/addFarmScreen.dart';
 import 'package:cattlefarming/Screens/farmSetup.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
@@ -464,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     // Handle Add to Cart action
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => FarmNameScreen()));
+                        builder: (context) => AdminDashbordScreen()));
                   },
                 ),
               ],

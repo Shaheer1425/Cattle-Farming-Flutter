@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
-class FarmNameScreen extends StatefulWidget {
-  const FarmNameScreen({super.key});
+class AddFarmScreen extends StatefulWidget {
+  const AddFarmScreen({super.key});
 
   @override
-  State<FarmNameScreen> createState() => _FarmNameScreenState();
+  State<AddFarmScreen> createState() => _AddFarmScreenState();
 }
 
-class _FarmNameScreenState extends State<FarmNameScreen> {
-  TextEditingController temperaturecon = TextEditingController();
+class _AddFarmScreenState extends State<AddFarmScreen> {
+  TextEditingController namecon = TextEditingController();
+  TextEditingController citycon = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Set Farm Name",
+            "Add Farm",
             style: TextStyle(
               fontSize: 25,
               color: Colors.white,
@@ -43,7 +44,7 @@ class _FarmNameScreenState extends State<FarmNameScreen> {
                   border: Border.all(color: const Color(0xFF02B7C8))),
               child: Center(
                 child: TextFormField(
-                  controller: temperaturecon,
+                  controller: namecon,
                   decoration: const InputDecoration(
                     hintText: 'Mazhar Iqbal',
                     hintStyle: TextStyle(),
@@ -54,7 +55,32 @@ class _FarmNameScreenState extends State<FarmNameScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(bottom: 8, left: 8),
+              child: Text(
+                "Enter City",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Container(
+              width: 300,
+              height: 60,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  border: Border.all(color: const Color(0xFF02B7C8))),
+              child: Center(
+                child: TextFormField(
+                  controller: citycon,
+                  decoration: const InputDecoration(
+                    hintText: 'Rawalpindi',
+                    hintStyle: TextStyle(),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 40),
               child: Center(
                 child: SizedBox(
                     width: 200,

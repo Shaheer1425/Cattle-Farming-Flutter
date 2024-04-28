@@ -1,9 +1,10 @@
 import 'package:cattlefarming/Screens/addCustomers.dart';
+import 'package:cattlefarming/Screens/adminDashbordScreen.dart';
 
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
 import 'package:cattlefarming/Screens/events.dart';
 import 'package:cattlefarming/Screens/expenseScreen.dart';
-import 'package:cattlefarming/Screens/farmNameScreen.dart';
+import 'package:cattlefarming/Screens/addFarmScreen.dart';
 import 'package:cattlefarming/Screens/farmSetup.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/incomeScreen.dart';
@@ -21,6 +22,7 @@ import 'package:cattlefarming/Screens/vaccineCourse.dart';
 import 'package:cattlefarming/Screens/vaccineInjectScreen.dart';
 import 'package:cattlefarming/Screens/viewCattleScreen.dart';
 import 'package:cattlefarming/Screens/viewCustomers.dart';
+import 'package:cattlefarming/Screens/viewFodderStockScreen.dart';
 import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: AdminDashbordScreen(),
     );
   }
 }

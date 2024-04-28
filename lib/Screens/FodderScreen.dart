@@ -2,6 +2,7 @@ import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/viewFodderStockScreen.dart';
 import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
@@ -66,7 +67,7 @@ class FodderScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => FodderStockScreen())),
+                    builder: (context) => ViewFodderStockScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
