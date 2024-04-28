@@ -32,7 +32,7 @@ class _AdminDashbordScreenState extends State<AdminDashbordScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 45, top: 70),
             child: Text(
-              'Hello $adminName',
+              'Hello, $adminName',
               style: TextStyle(
                 fontSize: 15,
               ),

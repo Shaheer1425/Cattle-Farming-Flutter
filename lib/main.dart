@@ -24,6 +24,7 @@ import 'package:cattlefarming/Screens/viewCattleScreen.dart';
 import 'package:cattlefarming/Screens/viewCustomers.dart';
 import 'package:cattlefarming/Screens/viewFodderStockScreen.dart';
 import 'package:cattlefarming/Screens/viewMilkRecord.dart';
+import 'package:cattlefarming/Screens/viewOtherFarms.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:cattlefarming/Screens/weightScreen.dart';
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: AdminDashbordScreen(),
+      home: SplashScreen(),
     );
   }
 }

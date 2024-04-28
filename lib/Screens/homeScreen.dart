@@ -14,6 +14,7 @@ import 'package:cattlefarming/Screens/transactionScreen.dart';
 import 'package:cattlefarming/Screens/viewCattleScreen.dart';
 import 'package:cattlefarming/Screens/viewCustomers.dart';
 import 'package:cattlefarming/Screens/viewMilkRecord.dart';
+import 'package:cattlefarming/Screens/viewOtherFarms.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:cattlefarming/Screens/weightScreen.dart';
@@ -134,9 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 title: const Text('Other Farm'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
               ),
               ListTile(
                 title: const Text('View Other Farm'),
@@ -145,7 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: const Color(0xFF443E3E),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ViewOtherFarmsScreen()));
                 },
               ),
             ],
