@@ -1,10 +1,14 @@
+import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
+import 'package:cattlefarming/Screens/fodderStockScreen.dart';
+import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:flutter/material.dart';
 
-class EventsScreen extends StatelessWidget {
-  const EventsScreen({super.key});
+class FodderScreen extends StatelessWidget {
+  const FodderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,7 @@ class EventsScreen extends StatelessWidget {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Events",
+              "Fodder",
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white,
@@ -30,7 +34,7 @@ class EventsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ViewTemperatureScreen())),
+                    builder: (context) => consumeFodderScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -39,11 +43,11 @@ class EventsScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/temperature2.png",
+                          "assets/images/cattlefodder.png",
                         ),
                       ),
                       Text(
-                        "Temperature",
+                        "Consume Fodder",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -62,7 +66,7 @@ class EventsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ViewWeightScreen())),
+                    builder: (context) => FodderStockScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -71,43 +75,11 @@ class EventsScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/weighticon.png",
+                          "assets/images/Shoping Card rack.png",
                         ),
                       ),
                       Text(
-                        "Weight",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(blurRadius: 3),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => VaccineCourseScreen())),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 70,
-                        child: Image.asset(
-                          "assets/images/vaccineicon2.png",
-                        ),
-                      ),
-                      Text(
-                        "Vaccination",
+                        "Fodder Stock",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],

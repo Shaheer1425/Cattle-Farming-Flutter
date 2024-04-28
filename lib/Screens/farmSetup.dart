@@ -12,7 +12,7 @@ class FarmSetupScreen extends StatelessWidget {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Farm Setup",
+              "Category Explorer",
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white,
@@ -29,8 +29,36 @@ class FarmSetupScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ViewTemperatureScreen())),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Center(child: Text('Income Categories')),
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Milk Sale'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Cattle Sale'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +67,7 @@ class FarmSetupScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/pkr.png",
+                          "assets/images/pkr1.png",
                         ),
                       ),
                       Padding(
@@ -64,8 +92,36 @@ class FarmSetupScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ViewWeightScreen())),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Center(child: Text('Expense Categories')),
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Fodder'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Vaccination'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +130,7 @@ class FarmSetupScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/pkr.png",
+                          "assets/images/pkr1.png",
                         ),
                       ),
                       Padding(
@@ -99,8 +155,54 @@ class FarmSetupScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => VaccineCourseScreen())),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Center(child: Text('Cattle Breed')),
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.42,
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Sahiwali'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Red Sindhi'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Cholistani'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Nili-Ravi'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Dajal'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -131,8 +233,42 @@ class FarmSetupScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => VaccineCourseScreen())),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Center(child: Text('Cattle Type')),
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.26,
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Cow'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Buffalo'),
+                                ),
+                              ),
+                              Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  title: Text('Goat'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

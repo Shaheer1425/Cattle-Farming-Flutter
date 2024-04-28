@@ -1,10 +1,12 @@
+import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:flutter/material.dart';
 
-class EventsScreen extends StatelessWidget {
-  const EventsScreen({super.key});
+class MilkScreen extends StatelessWidget {
+  const MilkScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class EventsScreen extends StatelessWidget {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Events",
+              "Milk",
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white,
@@ -30,7 +32,7 @@ class EventsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ViewTemperatureScreen())),
+                    builder: (context) => ViewMilkRecordScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -39,11 +41,11 @@ class EventsScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/temperature2.png",
+                          "assets/images/milk.png",
                         ),
                       ),
                       Text(
-                        "Temperature",
+                        "Milk Record",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -62,7 +64,7 @@ class EventsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ViewWeightScreen())),
+                    builder: (context) => MilkInventoryDetailsScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -71,43 +73,11 @@ class EventsScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/weighticon.png",
+                          "assets/images/Shoping Card rack.png",
                         ),
                       ),
                       Text(
-                        "Weight",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(blurRadius: 3),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => VaccineCourseScreen())),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 70,
-                        child: Image.asset(
-                          "assets/images/vaccineicon2.png",
-                        ),
-                      ),
-                      Text(
-                        "Vaccination",
+                        "Milk Stock",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],

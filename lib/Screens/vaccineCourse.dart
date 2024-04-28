@@ -13,6 +13,7 @@ class _VaccineCourseScreenState extends State<VaccineCourseScreen> {
   TextEditingController vaccineNamecon = TextEditingController();
   TextEditingController totalDosecon = TextEditingController();
   TextEditingController durationcon = TextEditingController();
+  TextEditingController pricecon = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,32 @@ class _VaccineCourseScreenState extends State<VaccineCourseScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 220, left: 140),
+              padding: const EdgeInsets.only(bottom: 8, left: 8),
+              child: Text(
+                "Price",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Container(
+              width: 300,
+              height: 60,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  border: Border.all(color: const Color(0xFF02B7C8))),
+              child: Center(
+                child: TextFormField(
+                  controller: durationcon,
+                  decoration: const InputDecoration(
+                    hintText: 'Rs 1500',
+                    hintStyle: TextStyle(),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 170, left: 140),
               child: SizedBox(
                   width: 140,
                   height: 60,

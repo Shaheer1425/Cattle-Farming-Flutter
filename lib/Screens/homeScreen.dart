@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Screens/FodderScreen.dart';
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
 import 'package:cattlefarming/Screens/addMilkScreen.dart';
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
@@ -5,8 +6,15 @@ import 'package:cattlefarming/Screens/events.dart';
 import 'package:cattlefarming/Screens/farmNameScreen.dart';
 import 'package:cattlefarming/Screens/farmSetup.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
+import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
+import 'package:cattlefarming/Screens/milkScreen.dart';
+import 'package:cattlefarming/Screens/notificationScreen.dart';
 import 'package:cattlefarming/Screens/transactionScreen.dart';
+import 'package:cattlefarming/Screens/viewCattleScreen.dart';
+import 'package:cattlefarming/Screens/viewCustomers.dart';
+import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
+import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:cattlefarming/Screens/weightScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 size: 25,
               ),
               onPressed: () {
-                // Add your onPressed callback here
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NotificationScreen()));
               },
             ),
           ],
@@ -107,8 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: const Color(0xFF443E3E),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => WeightScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ViewWeightScreen()));
                 },
               ),
               ListTile(
@@ -120,28 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ViewTemperatureScreen()));
-                },
-              ),
-              ListTile(
-                title: const Text('Food Stock'),
-                leading: Image.asset(
-                  "assets/images/foodicon.png",
-                  width: 25,
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => FodderStockScreen()));
-                },
-              ),
-              ListTile(
-                title: const Text('Food Consume Report'),
-                leading: Image.asset(
-                  "assets/images/foodicon.png",
-                  width: 25,
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => consumeFodderScreen()));
                 },
               ),
               ListTile(
@@ -171,8 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => AddCattle())),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ViewCattleScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AddMilkScreen())),
+                    MaterialPageRoute(builder: (context) => MilkScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -218,6 +205,40 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Text(
                         "Milk Record",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => FodderScreen()));
+                },
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/cattlefodder.png",
+                        ),
+                      ),
+                      Text(
+                        "Food Record",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -268,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TransactionsScreen())),
+                    builder: (context) => ViewCustomersScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -277,43 +298,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/transaction.png",
+                          "assets/images/customer.png",
                         ),
                       ),
                       Text(
-                        "Transactions",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(blurRadius: 10),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => FarmSetupScreen())),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 70,
-                        child: Image.asset(
-                          "assets/images/farm setup.png",
-                        ),
-                      ),
-                      Text(
-                        "Farm Setup",
+                        "Customers",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -356,6 +345,73 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => FarmSetupScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/farm setup.png",
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Text(
+                          "Category Explorer",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TransactionsScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/transaction.png",
+                        ),
+                      ),
+                      Text(
+                        "Transactions",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: _navBar());
@@ -385,6 +441,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onPressed: () {
                     // Handle Add to Cart action
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MilkInventoryDetailsScreen()));
                   },
                 ),
                 IconButton(
@@ -394,8 +452,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 35,
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
                     // Handle Add to Cart action
                   },
                 ),

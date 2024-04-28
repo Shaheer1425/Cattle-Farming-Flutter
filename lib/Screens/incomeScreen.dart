@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Screens/addCustomers.dart';
 import 'package:cattlefarming/Screens/expenseScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -37,9 +38,17 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
     'Milk Sale',
     'Cattle Sale',
   ];
+
   bool isMilkSaleSelected = false;
   bool isCattleSaleSelected = false;
   String? incomeTypeSelected;
+  List<String> customerList = [
+    'Aslam',
+    'Ali',
+    'Barkat',
+  ];
+
+  String? customerSelected;
 
   @override
   void initState() {
@@ -332,6 +341,82 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                   ),
                 ),
               ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8, left: 8),
+                child: Text(
+                  "Select Customer",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 250,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(color: const Color(0xFF02B7C8)),
+                    ),
+                    child: Center(
+                      child: SizedBox(
+                        width: 240,
+                        child: DropdownButton<String>(
+                          value: customerSelected,
+                          underline: const SizedBox(),
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 27.0),
+                            child: const Text("Aslam"),
+                          ),
+                          items: [
+                            DropdownMenuItem<String>(
+                              value: "Select Customer",
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 27.0),
+                                child: const Text("Select Customer"),
+                              ),
+                            ),
+                            ...customerList.map((String e) {
+                              return DropdownMenuItem<String>(
+                                value: e,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 27.0),
+                                  child: Text(e),
+                                ),
+                              );
+                            }),
+                          ],
+                          onChanged: (newSelectedVal) {
+                            setState(() {
+                              customerSelected = newSelectedVal;
+                              // Update the boolean variable based on the selection
+                            });
+                          },
+                          isExpanded: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFF039BA8),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddCustomersScreen()));
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        )),
+                  )
+                ],
+              ),
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 8, left: 8),
