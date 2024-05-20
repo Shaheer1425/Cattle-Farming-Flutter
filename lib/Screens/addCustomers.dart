@@ -1,3 +1,5 @@
+import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:cattlefarming/Models/customerClass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,6 +14,35 @@ class _AddCustomersScreenState extends State<AddCustomersScreen> {
   TextEditingController namecon = TextEditingController();
   TextEditingController addresscon = TextEditingController();
   TextEditingController contactcon = TextEditingController();
+
+  final ApiHandler apiHandler = ApiHandler();
+
+  Future<void> saveCustomer() async {
+    try {
+      // Create a Weight object with the input values
+      final customer = CustomerRecord(
+        name: namecon.text,
+        address: addresscon.text,
+        contact: contactcon.text,
+      );
+
+      // Call the API to save the weight
+      final responseMessage = await apiHandler.saveCustomer(customer);
+      if (responseMessage == 'Customer ${namecon.text} added successfully') {
+        Navigator.pop(context, customer);
+      }
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(responseMessage)),
+      );
+    } catch (e) {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save Customer: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +166,7 @@ class _AddCustomersScreenState extends State<AddCustomersScreen> {
                   border: Border.all(color: const Color(0xFF02B7C8))),
               child: Center(
                 child: TextFormField(
-                  controller: addresscon,
+                  controller: contactcon,
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     hintText: '03012345678',
@@ -157,7 +188,7 @@ class _AddCustomersScreenState extends State<AddCustomersScreen> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xFF039BA8),
                       )),
-                      onPressed: () {},
+                      onPressed: saveCustomer,
                       child: const Text(
                         "Add Now",
                         style: TextStyle(

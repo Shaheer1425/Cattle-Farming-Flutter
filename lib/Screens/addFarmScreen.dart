@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:flutter/material.dart';
 
 class AddFarmScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                 child: TextFormField(
                   controller: namecon,
                   decoration: const InputDecoration(
-                    hintText: 'Mazhar Iqbal',
+                    hintText: 'Happy Hooves Ranch',
                     hintStyle: TextStyle(),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -90,7 +91,42 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xFF039BA8),
                       )),
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (namecon.text.isEmpty || citycon.text.isEmpty) {
+                          // Display a snackbar if any of the fields are empty
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Please fill in all fields'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Create a Map with the input data
+                        Map<String, dynamic> farmData = {
+                          'Name': namecon.text,
+                          'City': citycon.text,
+                        };
+
+                        try {
+                          // Call the API to add the cattle
+                          String response =
+                              await ApiHandler().addFarm(farmData);
+                          // Display a success message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(response),
+                            ),
+                          );
+                        } catch (e) {
+                          // Display an error message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to add Farm. Error: $e'),
+                            ),
+                          );
+                        }
+                      },
                       child: const Text(
                         "Save",
                         style: TextStyle(

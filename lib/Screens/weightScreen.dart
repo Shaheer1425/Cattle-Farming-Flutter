@@ -1,3 +1,5 @@
+import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:cattlefarming/Models/weightClass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -13,6 +15,8 @@ class _WeightScreenState extends State<WeightScreen> {
   TextEditingController weightcon = TextEditingController();
   TextEditingController datecon = TextEditingController();
 
+  final ApiHandler apiHandler = ApiHandler();
+
   Future<void> selectDate(BuildContext context) async {
     final DateTime? datePicker = await showDatePicker(
         context: context,
@@ -23,6 +27,33 @@ class _WeightScreenState extends State<WeightScreen> {
       setState(() {
         datecon.text = datePicker.toString().split(' ')[0];
       });
+    }
+  }
+
+  Future<void> saveWeight() async {
+    try {
+      // Create a Weight object with the input values
+      final weight = WeightRecord(
+        tag: tagcon.text,
+        weight: weightcon.text,
+        date: datecon.text,
+      );
+
+      // Call the API to save the weight
+      final responseMessage = await apiHandler.saveWeight(weight);
+      if (responseMessage == 'Weight ${weightcon.text} added successfully') {
+        Navigator.pop(context, weight);
+      }
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(responseMessage)),
+      );
+    } catch (e) {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save weight: $e')),
+      );
     }
   }
 
@@ -122,6 +153,7 @@ class _WeightScreenState extends State<WeightScreen> {
                   border: Border.all(color: const Color(0xFF02B7C8))),
               child: Center(
                 child: TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(),
                   controller: weightcon,
                   decoration: const InputDecoration(
                     hintText: '250 KG',
@@ -180,7 +212,7 @@ class _WeightScreenState extends State<WeightScreen> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xFF039BA8),
                       )),
-                      onPressed: () {},
+                      onPressed: saveWeight,
                       child: const Text(
                         "Add Now",
                         style: TextStyle(

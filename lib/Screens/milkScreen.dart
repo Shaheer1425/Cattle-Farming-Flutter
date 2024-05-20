@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Screens/cattleAvgMilkScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
 import 'package:cattlefarming/Screens/viewMilkRecord.dart';
@@ -46,6 +47,38 @@ class MilkScreen extends StatelessWidget {
                       ),
                       Text(
                         "Milk Record",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 3),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ViewCattleAvgMilkScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/avgmilk.png",
+                        ),
+                      ),
+                      Text(
+                        "Average Milk",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],

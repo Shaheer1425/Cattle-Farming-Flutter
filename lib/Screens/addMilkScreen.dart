@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +16,12 @@ class _AddMilkScreenState extends State<AddMilkScreen> {
   TextEditingController milkproducedcon = TextEditingController();
   TextEditingController milkUsedcon = TextEditingController();
   TextEditingController notecon = TextEditingController();
-  String? selectedTime;
+  String? selectedTime = "Morning";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? datePicker = await showDatePicker(
@@ -235,7 +241,49 @@ class _AddMilkScreenState extends State<AddMilkScreen> {
                             backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF039BA8),
                         )),
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (tagcon.text.isEmpty ||
+                              datecon.text.isEmpty ||
+                              milkproducedcon.text.isEmpty ||
+                              milkUsedcon.text.isEmpty) {
+                            // Display a snackbar if any of the fields are empty
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Please fill in all fields'),
+                              ),
+                            );
+                            return;
+                          }
+
+                          // Create a Map with the input data
+                          Map<String, dynamic> milkData = {
+                            'CattleTag': tagcon.text,
+                            'Date': datecon.text,
+                            'TotalMilk': milkproducedcon.text,
+                            'Time': selectedTime,
+                            'UsedMilk': milkUsedcon.text,
+                            'Note': notecon.text,
+                          };
+
+                          try {
+                            // Call the API to add the cattle
+                            String response =
+                                await ApiHandler().addMilk(milkData);
+                            // Display a success message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(response),
+                              ),
+                            );
+                          } catch (e) {
+                            // Display an error message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Failed to add Milk. Error: $e'),
+                              ),
+                            );
+                          }
+                        },
                         child: const Text(
                           "Add Now",
                           style: TextStyle(

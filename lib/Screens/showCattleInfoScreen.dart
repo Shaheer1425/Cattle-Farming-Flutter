@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CattleInfoScreen extends StatefulWidget {
-  const CattleInfoScreen({super.key});
+  final String cTag;
+
+  const CattleInfoScreen({super.key, required this.cTag});
 
   @override
   State<CattleInfoScreen> createState() => _CattleInfoScreenState();
@@ -26,7 +28,7 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
   //   ),
   // ];
 
-  String tag = 'C14F';
+  late String tag;
   String weight = '250 KG';
   String gender = 'Female';
   String age = '2 Years';
@@ -37,6 +39,13 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
   String expense = '8000';
   String vaccine = 'BVD';
   String vaccineDate = '2024-02-13';
+
+  @override
+  void initState() {
+    super.initState();
+    tag = widget.cTag;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +136,7 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
                   Positioned(
                       bottom: 25,
                       left: 160,
-                      child: Text('C14F',
+                      child: Text(tag,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

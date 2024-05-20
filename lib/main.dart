@@ -1,8 +1,9 @@
 import 'package:cattlefarming/Screens/addCustomers.dart';
 import 'package:cattlefarming/Screens/adminDashbordScreen.dart';
+import 'package:cattlefarming/Screens/cattleAvgMilkScreen.dart';
 
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
-import 'package:cattlefarming/Screens/events.dart';
+import 'package:cattlefarming/Screens/activities.dart';
 import 'package:cattlefarming/Screens/expenseScreen.dart';
 import 'package:cattlefarming/Screens/addFarmScreen.dart';
 import 'package:cattlefarming/Screens/farmSetup.dart';
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: SignIn(),
     );
   }
 }

@@ -195,6 +195,7 @@
 //     );
 //   }
 // }
+import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/temperatureClass.dart';
 import 'package:cattlefarming/Screens/temperatureScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -209,68 +210,38 @@ class ViewTemperatureScreen extends StatefulWidget {
 }
 
 class _ViewTemperatureScreenState extends State<ViewTemperatureScreen> {
-  // List of TemperatureRecord data
+  TextEditingController datecon = TextEditingController();
   List<TemperatureRecord> records = [];
+  ApiHandler apiHandler = ApiHandler();
   @override
   void initState() {
     super.initState();
-    initItems();
+    // datecon.text = DateTime.now().toString().split(' ')[0]; // Set default date
+    fetchTemperature(); // Fetch weights initially
   }
 
-  void initItems() {
-    setState(() {
-      records = [
-        TemperatureRecord(
-          temperature: '30°C',
-          date: '2023-11-15',
-          time: '06:30 AM',
-        ),
-        TemperatureRecord(
-          temperature: '28°C',
-          date: '2023-11-16',
-          time: '07:00 AM',
-        ),
-        TemperatureRecord(
-          temperature: '28°C',
-          date: '2023-11-16',
-          time: '07:00 AM',
-        ),
-        TemperatureRecord(
-          temperature: '28°C',
-          date: '2023-11-16',
-          time: '07:00 AM',
-        ),
-        TemperatureRecord(
-          temperature: '28°C',
-          date: '2023-11-16',
-          time: '07:00 AM',
-        ),
-        TemperatureRecord(
-          temperature: '28°C',
-          date: '2023-11-16',
-          time: '07:00 AM',
-        ),
-        TemperatureRecord(
-          temperature: '30°C',
-          date: '2023-11-15',
-          time: '06:30 AM',
-        ),
-      ];
-    });
-  }
-
-  TextEditingController datecon = TextEditingController();
   Future<void> selectDate(BuildContext context) async {
     final DateTime? datePicker = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1947),
-        lastDate: DateTime(2050));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1947),
+      lastDate: DateTime(2050),
+    );
     if (datePicker != null) {
       setState(() {
         datecon.text = datePicker.toString().split(' ')[0];
       });
+      fetchTemperature(); // Fetch weights for the selected date
     }
+  }
+
+  Future<void> fetchTemperature() async {
+    if (datecon.text.isNotEmpty) {
+      records = await apiHandler.GetTemperatureByDate(datecon.text);
+    } else {
+      records = await apiHandler.getAllTemperature();
+    }
+    setState(() {}); // Update the UI after fetching weights
   }
 
   @override
@@ -288,9 +259,22 @@ class _ViewTemperatureScreenState extends State<ViewTemperatureScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => TemperatureScreen()));
+        onPressed: () async {
+          // Navigator.of(context)
+          //     .push(MaterialPageRoute(builder: (context) => WeightScreen()));
+
+          final newRecord = await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => TemperatureScreen(),
+            ),
+          );
+
+          // Check if a new record was returned
+          if (newRecord != null && newRecord is TemperatureRecord) {
+            setState(() {
+              records.add(newRecord);
+            });
+          }
         },
         child: Icon(
           Icons.add,
@@ -348,7 +332,7 @@ class _ViewTemperatureScreenState extends State<ViewTemperatureScreen> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Temperature: ${record.temperature}'),
+                          Text('Temperature: ${record.temperature} °C'),
                           Text('Time: ${record.time}'),
                         ],
                       ),

@@ -1,3 +1,4 @@
+import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/milkClass.dart';
 import 'package:cattlefarming/Models/temperatureClass.dart';
 import 'package:cattlefarming/Screens/addMilkScreen.dart';
@@ -14,31 +15,39 @@ class ViewMilkRecordScreen extends StatefulWidget {
 
 class _ViewMilkRecordScreenState extends State<ViewMilkRecordScreen> {
   // List of TemperatureRecord data
-  final List<MilkRecord> milkRecordsList = [
-    MilkRecord(
-        tag: 'C14F',
-        date: '2023-11-15',
-        totalMilk: '10 KG',
-        consumedMilk: '3 KG'),
-    MilkRecord(
-        tag: 'B16F',
-        date: '2023-11-15',
-        totalMilk: '14 KG',
-        consumedMilk: '4 KG'),
-  ];
 
   TextEditingController datecon = TextEditingController();
+  List<MilkRecord> records = [];
+  ApiHandler apiHandler = ApiHandler();
+  @override
+  void initState() {
+    super.initState();
+    // datecon.text = DateTime.now().toString().split(' ')[0]; // Set default date
+    fetchMilkRecord(); // Fetch weights initially
+  }
+
   Future<void> selectDate(BuildContext context) async {
     final DateTime? datePicker = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1947),
-        lastDate: DateTime(2050));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1947),
+      lastDate: DateTime(2050),
+    );
     if (datePicker != null) {
       setState(() {
         datecon.text = datePicker.toString().split(' ')[0];
       });
+      fetchMilkRecord(); // Fetch weights for the selected date
     }
+  }
+
+  Future<void> fetchMilkRecord() async {
+    if (datecon.text.isNotEmpty) {
+      records = await apiHandler.GetMilkCollectionByDate(datecon.text);
+    } else {
+      records = await apiHandler.getAllMilkCollection();
+    }
+    setState(() {}); // Update the UI after fetching weights
   }
 
   @override
@@ -104,9 +113,9 @@ class _ViewMilkRecordScreenState extends State<ViewMilkRecordScreen> {
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: milkRecordsList.length,
+              itemCount: records.length,
               itemBuilder: (context, index) {
-                final record = milkRecordsList[index];
+                final record = records[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(

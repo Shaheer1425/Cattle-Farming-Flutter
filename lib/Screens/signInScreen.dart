@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:cattlefarming/Screens/homeScreen.dart';
 import 'package:cattlefarming/Screens/signupScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -99,25 +105,8 @@ class _SignInState extends State<SignIn> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-            child: const Row(
-              children: [
-                Text(
-                  "Don't have an account?",
-                  style: TextStyle(),
-                ),
-                InkWell(
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(color: Color(0xFF02B7C8)),
-                  ),
-                ),
-              ],
-            ),
-          ),
           const SizedBox(
-            height: 60,
+            height: 30,
           ),
           SizedBox(
               width: 300,
@@ -127,11 +116,39 @@ class _SignInState extends State<SignIn> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                   const Color(0xFF039BA8),
                 )),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SignUp(),
-                  ));
+                onPressed: () async {
+                  Response response =
+                      await ApiHandler().login(emailcon.text, passwordcon.text);
+                  print('This is Response$response');
+                  if (response.statusCode == 204) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Invalid Email or password'),
+                          );
+                        });
+                  } else if (response.statusCode == 200) {
+                    dynamic obj = jsonDecode(response.body);
+                    print(obj);
+                    // uobj=obj;
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Error....'),
+                          );
+                        });
+                  }
                 },
+
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => SignUp(),
+                // ));
+
                 child: const Text(
                   "Sign In",
                   style: TextStyle(
@@ -140,6 +157,27 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               )),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 3),
+            child: Row(
+              children: [
+                Text(
+                  "Don't have an account?",
+                  style: TextStyle(),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => SignUp()));
+                  },
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(color: Color(0xFF02B7C8)),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     ));

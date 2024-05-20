@@ -3,7 +3,7 @@ import 'package:cattlefarming/Screens/addCattleScreen.dart';
 import 'package:cattlefarming/Screens/addMilkScreen.dart';
 import 'package:cattlefarming/Screens/adminDashbordScreen.dart';
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
-import 'package:cattlefarming/Screens/events.dart';
+import 'package:cattlefarming/Screens/activities.dart';
 import 'package:cattlefarming/Screens/addFarmScreen.dart';
 import 'package:cattlefarming/Screens/farmSetup.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
@@ -21,13 +21,24 @@ import 'package:cattlefarming/Screens/weightScreen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  //final int farmId;
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // late int id;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //  id = widget.farmId;
+  }
+
   // int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -46,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           title: Text(
-            "Cattle Management",
+            "Cattle Management ",
             style: TextStyle(
               fontSize: 25,
               color: Colors.white,
@@ -98,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 title: const Text('Transaction Report'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TransactionsScreen()));
                 },
               ),
               ListTile(
@@ -108,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 25,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MilkInventoryDetailsScreen()));
                 },
               ),
               ListTile(
@@ -256,8 +269,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EventsScreen())),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ActivitiesScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -270,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Text(
-                        "Events",
+                        "Activities",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -447,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 IconButton(
                   icon: Icon(
-                    Icons.home,
+                    Icons.add,
                     color: const Color(0xFF02B7C8),
                     size: 35,
                   ),

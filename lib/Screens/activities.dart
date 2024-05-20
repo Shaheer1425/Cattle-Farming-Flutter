@@ -3,8 +3,8 @@ import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:flutter/material.dart';
 
-class EventsScreen extends StatelessWidget {
-  const EventsScreen({super.key});
+class ActivitiesScreen extends StatelessWidget {
+  const ActivitiesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class EventsScreen extends StatelessWidget {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Events",
+              "Activities",
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white,

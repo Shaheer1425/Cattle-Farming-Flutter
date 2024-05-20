@@ -100,7 +100,7 @@ class FarmSetupScreen extends StatelessWidget {
                         title: Center(child: Text('Expense Categories')),
                         content: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.18,
                           child: Column(
                             children: [
                               Card(
@@ -152,84 +152,110 @@ class FarmSetupScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Center(child: Text('Cattle Breed')),
-                        content: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.42,
-                          child: Column(
-                            children: [
-                              Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  title: Text('Sahiwali'),
-                                ),
-                              ),
-                              Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  title: Text('Red Sindhi'),
-                                ),
-                              ),
-                              Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  title: Text('Cholistani'),
-                                ),
-                              ),
-                              Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  title: Text('Nili-Ravi'),
-                                ),
-                              ),
-                              Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  title: Text('Dajal'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 70,
-                        child: Image.asset(
-                          "assets/images/cattlebreed.png",
-                        ),
-                      ),
-                      Text(
-                        "Cattle Breed",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(blurRadius: 3),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: InkWell(
+            //     onTap: () {
+            //       showDialog(
+            //         context: context,
+            //         builder: (BuildContext context) {
+            //           return AlertDialog(
+            //             title: Center(child: Text('Cattle Breed')),
+            //             content: Expanded(
+            //               child: Container(
+            //                 width: MediaQuery.of(context).size.width * 0.8,
+            //                 height: MediaQuery.of(context).size.height * 0.82,
+            //                 child: Column(
+            //                   children: [
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Sahiwali'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Red Sindhi'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Cholistani'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Nili-Ravi'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Bhagnari'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Kundhi'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Dajal'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Barbari'),
+            //                       ),
+            //                     ),
+            //                     Card(
+            //                       elevation: 5,
+            //                       child: ListTile(
+            //                         title: Text('Beetal'),
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       );
+            //     },
+            //     child: Container(
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Container(
+            //             width: 100,
+            //             height: 70,
+            //             child: Image.asset(
+            //               "assets/images/cattlebreed.png",
+            //             ),
+            //           ),
+            //           Text(
+            //             "Cattle Breed",
+            //             style: TextStyle(fontSize: 18),
+            //           ),
+            //         ],
+            //       ),
+            //       decoration: BoxDecoration(
+            //         boxShadow: [
+            //           BoxShadow(blurRadius: 3),
+            //         ],
+            //         borderRadius: BorderRadius.all(Radius.circular(30)),
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
