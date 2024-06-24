@@ -418,6 +418,7 @@ import 'package:cattlefarming/Models/injectVaccineClass.dart';
 import 'package:cattlefarming/Models/vaccineStockClass.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class VaccineInjectScreen extends StatefulWidget {
   const VaccineInjectScreen({super.key});
@@ -427,6 +428,7 @@ class VaccineInjectScreen extends StatefulWidget {
 }
 
 class _VaccineInjectScreenState extends State<VaccineInjectScreen> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   TextEditingController tagcon = TextEditingController();
   TextEditingController datecon = TextEditingController(text: '2023-11-14');
   int? vaccineSelectedId;
@@ -434,6 +436,28 @@ class _VaccineInjectScreenState extends State<VaccineInjectScreen> {
   List<Vaccination> vaccinationsList = [];
   ApiHandler apiHandler = ApiHandler();
   int farmId = 1;
+
+  String? tag;
+
+  void _onQRViewCreated(QRViewController controller) {
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        tag = scanData.code;
+        print("-----------------------------------------ye tag hy$tag");
+        tagcon.text = tag!;
+
+        handleTagSubmit(tag!);
+        controller.pauseCamera(); // Pause camera after successful scan
+        Navigator.of(context).pop(); // Close the QR scanner dialog if any
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    tagcon.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -552,6 +576,77 @@ class _VaccineInjectScreenState extends State<VaccineInjectScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Scan QR'),
+                        content: SizedBox(
+                          width: double.infinity,
+                          height: 300,
+                          child: QRView(
+                            key: qrKey,
+                            onQRViewCreated: _onQRViewCreated,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            child: Text('Close'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Center(
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: 170,
+                        height: 170,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 238, 243, 243),
+                          borderRadius: BorderRadius.all(Radius.circular(85)),
+                          border: Border.all(color: const Color(0xFF02B7C8)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(
+                                  0xFF02B7C8), // Shadow color and opacity
+                              spreadRadius: 1, // Shadow spread radius
+                              blurRadius: 5, // Shadow blur radius
+                              offset: Offset(0, 0), // Shadow offset
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 60,
+                        left: 24,
+                        child: Image.asset(
+                          'assets/images/camera.png',
+
+                          //fit: BoxFit.cover,assets/images/measure.png
+                          width: 120,
+                          height: 90,
+                        ),
+                      ),
+                      Positioned(
+                          bottom: 30,
+                          left: 43,
+                          child: Text(
+                            "Scan QR",
+                            style: TextStyle(fontSize: 20),
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8, left: 8),
                 child: Text(

@@ -11,6 +11,7 @@ import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/milkScreen.dart';
 import 'package:cattlefarming/Screens/notificationScreen.dart';
+import 'package:cattlefarming/Screens/reportsScreen.dart';
 import 'package:cattlefarming/Screens/signInScreen.dart';
 import 'package:cattlefarming/Screens/transactionScreen.dart';
 import 'package:cattlefarming/Screens/viewCattleScreen.dart';
@@ -410,29 +411,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/reports.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProgressReport())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/reports.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Report",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Report",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

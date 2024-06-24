@@ -17,7 +17,7 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
   int farmId = 1;
   late String tag;
   late Future<CattleInfo?> cattleInfoFuture;
-
+  TextEditingController deadCostCon = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -34,6 +34,29 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
       print('Fetched Cattle info successfully: '); // Debug print
     } catch (e) {
       print('Failed to load data of cattle info: $e');
+    }
+  }
+
+  void markCattleAsDead(String tag, int farmId, int costOfDead) async {
+    Map<String, dynamic> cattleData = {
+      'Tag': tag,
+      'FarmID': farmId,
+      'CostOfDead': costOfDead,
+    };
+
+    try {
+      String response = await ApiHandler().deadCattle(cattleData);
+      print('------------------------------Response: $response');
+      // Show success message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Cattle marked as dead successfully!')),
+      );
+    } catch (e) {
+      print('Error: $e');
+      // Show error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to mark cattle as dead. Error: $e')),
+      );
     }
   }
 
@@ -68,30 +91,86 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
               PopupMenuItem(
                 child: Text('Dead'),
                 value: 'Dead',
-                onTap: () async {
-                  // Create a Map with the input data
-                  Map<String, dynamic> cattleData = {
-                    'tag': tag,
-                    'FarmID': farmId,
-                  };
+                onTap: () {
+                  // Show the dialog to input the estimated cost
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext) {
+                        return AlertDialog(
+                          // title: Text('Enter Estimated Cost'),
+                          content: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.13,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(bottom: 8, left: 8),
+                                  child: Text(
+                                    "Enter Estimated Cost",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 300,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      border: Border.all(
+                                          color: const Color(0xFF02B7C8))),
+                                  child: Center(
+                                    child: TextFormField(
+                                      controller: deadCostCon,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Rs. 290000',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 30.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: Text('Cancel')),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  markCattleAsDead(
+                                      tag, farmId, int.parse(deadCostCon.text));
+                                  setState(() {
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: Text('Save'))
+                          ],
+                        );
+                      });
 
-                  try {
-                    // Call the API to add the cattle
-                    String response = await ApiHandler().deadCattle(cattleData);
-                    // Display a success message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(' $response'),
-                      ),
-                    );
-                  } catch (e) {
-                    // Display an error message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Failed to save Dead cattle. Error: $e'),
-                      ),
-                    );
-                  }
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (BuildContext context) {
+                  //     return AlertDialog(
+                  //       title: Text('Enter Estimated Cost'),
+                  //       content: DeadCattleDialog(
+                  //         tag: tag,
+                  //         farmId: farmId,
+                  //         onSubmitted: (costOfDead) {
+                  //           markCattleAsDead(tag, farmId, costOfDead);
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // );
                 },
               ),
             ],
@@ -203,7 +282,74 @@ class _CattleInfoScreenState extends State<CattleInfoScreen> {
   }
 }
 
+//---------------------DeadCattleDialog functionality
 
+// class DeadCattleDialog extends StatefulWidget {
+//   final String tag;
+//   final int farmId;
+//   final Function(int) onSubmitted;
+
+//   DeadCattleDialog({
+//     required this.tag,
+//     required this.farmId,
+//     required this.onSubmitted,
+//   });
+
+//   @override
+//   _DeadCattleDialogState createState() => _DeadCattleDialogState();
+// }
+
+// class _DeadCattleDialogState extends State<DeadCattleDialog> {
+//   final TextEditingController _controller = TextEditingController();
+//   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       title: Text('Enter Estimated Cost'),
+//       content: Form(
+//         key: _formKey,
+//         child: TextFormField(
+//           controller: _controller,
+//           decoration: InputDecoration(
+//             labelText: 'Estimated Cost',
+//           ),
+//           keyboardType: TextInputType.number,
+//           validator: (value) {
+//             if (value == null || value.isEmpty) {
+//               return 'Please enter the estimated cost';
+//             }
+//             if (int.tryParse(value) == null) {
+//               return 'Please enter a valid number';
+//             }
+//             return null;
+//           },
+//         ),
+//       ),
+//       actions: [
+//         Row(
+//           children: [
+//             TextButton(
+//               onPressed: () {
+//                 if (_formKey.currentState?.validate() == true) {
+//                   widget.onSubmitted(int.parse(_controller.text));
+//                   Navigator.of(context).pop();
+//                 }
+//               },
+//               child: Text('OK'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//               child: Text('Cancel'),
+//             ),
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+// }
 //--------------------old screen
 
 // import 'package:cattlefarming/Models/cattleInfClass.dart';
