@@ -1,8 +1,8 @@
 import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/milkClass.dart';
-import 'package:cattlefarming/Models/temperatureClass.dart';
-import 'package:cattlefarming/Screens/addMilkScreen.dart';
-import 'package:cattlefarming/Screens/temperatureScreen.dart';
+
+import 'package:cattlefarming/Screens/addmilknewscreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -18,6 +18,10 @@ class _ViewMilkRecordScreenState extends State<ViewMilkRecordScreen> {
 
   TextEditingController datecon = TextEditingController();
   List<MilkRecord> records = [];
+  // List<MilkRecord> recordss = [
+  //   MilkRecord(tag: 'C14F', date: '2023-11-14', totalMilk: 10, consumedMilk: 2),
+  //   MilkRecord(tag: 'B19F', date: '2023-11-13', totalMilk: 13, consumedMilk: 3),
+  // ];
   ApiHandler apiHandler = ApiHandler();
   @override
   void initState() {
@@ -66,8 +70,8 @@ class _ViewMilkRecordScreenState extends State<ViewMilkRecordScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddMilkScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AddMilkNewScreen()));
         },
         child: Icon(
           Icons.add,
@@ -142,7 +146,7 @@ class _ViewMilkRecordScreenState extends State<ViewMilkRecordScreen> {
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Text(
-                                  'Consumed : ${record.consumedMilk}',
+                                  'Time : ${record.time}',
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ],

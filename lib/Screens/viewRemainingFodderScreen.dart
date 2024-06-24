@@ -1,7 +1,9 @@
+import 'package:cattlefarming/Models/FoodStockClass.dart';
+import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/fodderStock.dart';
 import 'package:cattlefarming/Models/milkClass.dart';
 import 'package:cattlefarming/Models/temperatureClass.dart';
-import 'package:cattlefarming/Screens/addMilkScreen.dart';
+import 'package:cattlefarming/Screens/addMilkOldScreen.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/temperatureScreen.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +17,33 @@ class ViewFodderStockScreen extends StatefulWidget {
 }
 
 class _ViewFodderStockScreenState extends State<ViewFodderStockScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchData();
+  }
+
+  ApiHandler apiHandler = ApiHandler();
+  List<FoodStock> foodStockList = [];
+  Future<void> fetchData() async {
+    try {
+      foodStockList = await apiHandler.remainingFoodStock();
+
+      setState(() {});
+
+      print('Fetched Remaining food successfully: '); // Debug print
+    } catch (e) {
+      print('Failed to load Remaining food: $e');
+    }
+  }
   // List of TemperatureRecord data
-  final List<FodderStockRecord> fodderStockList = [
-    FodderStockRecord(
-        foodName: 'Choker', date: '2023-11-15', qty: 250, price: 7000),
-    FodderStockRecord(
-        foodName: 'Jawar', date: '2023-11-15', qty: 300, price: 9000),
-  ];
+  // final List<FodderStockRecord> fodderStockList = [
+  //   FodderStockRecord(
+  //       foodName: 'Choker', date: '2023-11-15', qty: 250, price: 7000),
+  //   FodderStockRecord(
+  //       foodName: 'Jawar', date: '2023-11-15', qty: 300, price: 9000),
+  // ];
 
   TextEditingController datecon = TextEditingController();
   Future<void> selectDate(BuildContext context) async {
@@ -43,7 +65,7 @@ class _ViewFodderStockScreenState extends State<ViewFodderStockScreen> {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Fodder Stock",
+            "Remaining Fodder Stock",
             style: TextStyle(
               fontSize: 25,
               color: Colors.white,
@@ -51,16 +73,16 @@ class _ViewFodderStockScreenState extends State<ViewFodderStockScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => FodderStockScreen()));
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.of(context).push(
+      //         MaterialPageRoute(builder: (context) => FodderStockScreen()));
+      //   },
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -100,9 +122,9 @@ class _ViewFodderStockScreenState extends State<ViewFodderStockScreen> {
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: fodderStockList.length,
+              itemCount: foodStockList.length,
               itemBuilder: (context, index) {
-                final record = fodderStockList[index];
+                final record = foodStockList[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
@@ -111,8 +133,7 @@ class _ViewFodderStockScreenState extends State<ViewFodderStockScreen> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Fodder: ${record.foodName}'),
-                          Text('Date: ${record.date}'),
+                          Text('Fodder: ${record.item}'),
                         ],
                       ),
                       subtitle: Column(
@@ -125,11 +146,11 @@ class _ViewFodderStockScreenState extends State<ViewFodderStockScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Quantity: ${record.qty} KG',
+                                  'Date: ${record.date}',
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Text(
-                                  'Price: Rs. ${record.price}',
+                                  'Quantity: ${record.quantity} KG',
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ],

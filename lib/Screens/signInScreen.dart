@@ -93,6 +93,7 @@ class _SignInState extends State<SignIn> {
                   suffixIcon: IconButton(
                     icon: Icon(
                       isVisibal ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.grey,
                     ),
                     onPressed: () {
                       setState(() {

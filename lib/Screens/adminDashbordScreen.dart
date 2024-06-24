@@ -1,5 +1,6 @@
 import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/farmClass.dart';
+import 'package:cattlefarming/Models/global.dart';
 import 'package:cattlefarming/Screens/addFarmScreen.dart';
 import 'package:cattlefarming/Screens/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,6 +89,9 @@ class _AdminDashbordScreenState extends State<AdminDashbordScreen> {
                       padding: const EdgeInsets.only(left: 20.0),
                       child: InkWell(
                         onTap: () {
+                          int selectedFarmId = records[index]
+                              .id; // Get selected farm ID from your list
+                          FarmManager.setSelectedFarmId(selectedFarmId);
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => HomeScreen()));
                         },

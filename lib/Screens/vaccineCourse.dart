@@ -135,48 +135,48 @@ class _VaccineCourseScreenState extends State<VaccineCourseScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 170, left: 140),
-              child: SizedBox(
-                  width: 140,
-                  height: 60,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xFF039BA8),
-                    )),
-                    onPressed: () {
-                      final totalDoses = int.tryParse(totalDosecon.text) ?? 0;
-                      if (totalDoses > 0) {
-                        // Navigate to InjectVaccinationScreen with the totalDoses value
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VaccineInjectScreen(
-                              totalDoses: totalDoses,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "Add",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 170, left: 140),
+            //   child: SizedBox(
+            //       width: 140,
+            //       height: 60,
+            //       child: ElevatedButton(
+            //         style: ButtonStyle(
+            //             backgroundColor: MaterialStateProperty.all<Color>(
+            //           const Color(0xFF039BA8),
+            //         )),
+            //         onPressed: () {
+            //           final totalDoses = int.tryParse(totalDosecon.text) ?? 0;
+            //           if (totalDoses > 0) {
+            //             // Navigate to InjectVaccinationScreen with the totalDoses value
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                 builder: (context) => VaccineInjectScreen(
+            //                   totalDoses: totalDoses,
+            //                 ),
+            //               ),
+            //             );
+            //           }
+            //         },
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //           children: [
+            //             Icon(
+            //               Icons.add,
+            //               color: Colors.white,
+            //             ),
+            //             Text(
+            //               "Add",
+            //               style: TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: 25,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       )),
+            // ),
           ]),
         ),
       ),

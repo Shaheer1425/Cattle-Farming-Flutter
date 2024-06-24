@@ -1,14 +1,28 @@
 import 'dart:convert';
+
+import 'package:cattlefarming/Models/FoodStockClass.dart';
+import 'package:cattlefarming/Models/cattleAvgMilkClass.dart';
+import 'package:cattlefarming/Models/cattleInfClass.dart';
+import 'package:cattlefarming/Models/cattleSaleClass.dart';
 import 'package:cattlefarming/Models/customerClass.dart';
 import 'package:cattlefarming/Models/farmClass.dart';
+import 'package:cattlefarming/Models/injectVaccineClass.dart';
 import 'package:cattlefarming/Models/milkClass.dart';
+import 'package:cattlefarming/Models/milksaleClass.dart';
 import 'package:cattlefarming/Models/temperatureClass.dart';
+import 'package:cattlefarming/Models/vaccineStockClass.dart';
 import 'package:cattlefarming/Models/viewcattleClass.dart';
 import 'package:cattlefarming/Models/weightClass.dart';
 import 'package:http/http.dart' as http;
 
 class ApiHandler {
-  static const String base_url = 'http://192.168.18.130/CattleFarmingAPI/api/';
+  static String base_url = 'http://192.168.239.224/CattleFarmingAPI/api/';
+  //ApiHandler(this.baseUrl);
+  //static String? _baseUrl;
+
+  // static void setBaseUrl(String baseUrl) {
+  //   base_url = baseUrl;
+  // }
 
 //-----------------------------User API
 
@@ -102,23 +116,48 @@ class ApiHandler {
 
 //-----------------------------Cattle API
 
-  static Future<List<viewCattleRecord>> fetchCattle({
-    String? status,
-    String? type,
-    String? isVaccinate,
+  // static Future<List<viewCattleRecord>> fetchCattle({
+  //   String? status,
+  //   String? type,
+  //   String? isVaccinate,
+  // }) async {
+  //   final Uri uri = Uri.parse(
+  //     '$base_url/Cattle/FilterAllCattles?status=${status ?? ''}&type=${type ?? ''}&isVaccinate=${isVaccinate ?? ''}',
+  //   );
+
+  //   final response = await http.get(uri);
+
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> data = json.decode(response.body);
+  //     print("Data Fetched");
+  //     return data.map((json) => viewCattleRecord.fromJson(json)).toList();
+  //   } else {
+  //     throw Exception('Failed to load cattle data ${response.statusCode}');
+  //   }
+  // }
+
+  static Future<viewCattleRecord?> searchCattleByTag({
+    required String tag,
+    required int farmId,
   }) async {
     final Uri uri = Uri.parse(
-      '$base_url/Cattle/FilterAllCattles?status=${status ?? ''}&type=${type ?? ''}&isVaccinate=${isVaccinate ?? ''}',
+      '$base_url/Cattle/SearchCattleByTagAndFarm?tag=$tag&&farmid=$farmId',
     );
 
     final response = await http.get(uri);
 
+    // final uri = Uri.http(base_url, 'Cattle/SearchCattleByTagAndFarm', {
+    //   'tag': tag,
+    //   'farmid': farmId,
+    // });
+    // final response = await http.get(uri);
+
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      print("Data Fetched");
-      return data.map((json) => viewCattleRecord.fromJson(json)).toList();
+      return viewCattleRecord.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 404) {
+      return null; // Cattle not found
     } else {
-      throw Exception('Failed to load cattle data ${response.statusCode}');
+      throw Exception('Failed to search cattle');
     }
   }
 
@@ -161,6 +200,60 @@ class ApiHandler {
     }
   }
 
+  // Future<List<dynamic>> getAllSaledCattle() async {
+  //   final response =
+  //       await http.get(Uri.parse('$base_url/Cattle/GetAllSaledCattle'));
+  //   if (response.statusCode == 200) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     throw Exception('Failed to load Saled Cattle ');
+  //   }
+  // }
+  Future<List<CattleSale>> getAllSaledCattle() async {
+    final response =
+        await http.get(Uri.parse('$base_url/Cattle/GetAllSaledCattle'));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => CattleSale.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load Saled Cattle');
+    }
+  }
+
+  Future<CattleInfo?> fetchCattleInfo(String tag, int farmid) async {
+    final response = await http.get(Uri.parse(
+        '$base_url/Cattle/ShowCattleInfoByTag?tag=$tag&farmid=$farmid')); // Adjust endpoint accordingly
+
+    if (response.statusCode == 200) {
+      return CattleInfo.fromJson(jsonDecode(response.body));
+    } else {
+      print('Failed to load cattle info');
+      return null;
+    }
+  }
+
+  Future<String> deadCattle(Map<String, dynamic> cattleData) async {
+    final url = Uri.parse('$base_url/Cattle/DeadCattle');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(cattleData),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception(
+            'Failed to save dead cattle. Error: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      throw Exception('Failed to save dead cattle. Error: $e');
+    }
+  }
 //-----------------------------Weight API
 
   Future<List<WeightRecord>> getAllWeights() async {
@@ -231,6 +324,17 @@ class ApiHandler {
     }
   }
 
+  Future<WeightRecord?> getLastWeightByTag(String tag) async {
+    final response = await http
+        .get(Uri.parse('$base_url/Weight/GetLastMatricsByTag?cattleTag=$tag'));
+
+    if (response.statusCode == 200) {
+      return WeightRecord.fromJson(jsonDecode(response.body));
+    } else {
+      print('Failed to load weight record: ${response.statusCode}');
+      return null;
+    }
+  }
   //-----------------------------Temperature API
 
   Future<List<TemperatureRecord>> getAllTemperature() async {
@@ -278,10 +382,28 @@ class ApiHandler {
   }
 
   //-----------------------------Customer API
+  Future<List<dynamic>> getAllCustomer() async {
+    String url = base_url + "Customer/GetCustomer";
+    List<dynamic> mlist = [];
+    Uri uri = Uri.parse(url);
+    try {
+      var response = await http.get(uri);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      if (response.statusCode == 200) {
+        mlist = jsonDecode(response.body);
+      } else {
+        print('Failed to fetch Societies');
+      }
+    } catch (e) {
+      print('Error fetching Societies: $e');
+    }
+    return mlist;
+  }
 
   Future<List<CustomerRecord>> getAllCustomers() async {
     final response =
-        await http.get(Uri.parse('$base_url/Customer/GetAllCustomers'));
+        await http.get(Uri.parse('$base_url/Customer/GetCustomer'));
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
@@ -324,27 +446,73 @@ class ApiHandler {
   }
 
   //-------------------------Milk
-
-  Future<String> addMilk(Map<String, dynamic> milkData) async {
-    final url = Uri.parse('$base_url/Milk/SaveMilkCollection');
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(milkData),
-      );
-
-      if (response.statusCode == 200) {
-        return json.decode(response.body);
-      } else {
-        throw Exception('Failed to add Milk. Error: ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      throw Exception('Failed to add Milk. Error: $e');
+  Future<List<Map<String, dynamic>>> fetchMilkData() async {
+    final response =
+        await http.get(Uri.parse('$base_url/Milk/GetAliveCattleWithMilk'));
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data
+          .map((item) => {
+                'tag': item['Tag'],
+                'totalMilk': item['TotalMilk'].toString(),
+              })
+          .toList();
+    } else {
+      throw Exception('Failed to load data');
     }
   }
+
+  Future<void> postUpdatedMilkData(
+      List<Map<String, dynamic>> updatedRecords) async {
+    final response = await http.post(
+      Uri.parse('$base_url/Milk/PostUpdatedMilkData'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(updatedRecords),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          'Failed to post data to the database. Status code: ${response.statusCode}');
+    }
+  }
+
+  // Future<String> addMilk(Map<String, dynamic> milkData) async {
+  //   final url = Uri.parse('$base_url/Milk/SaveMilkCollection');
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: json.encode(milkData),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       return json.decode(response.body);
+  //     } else {
+  //       throw Exception('Failed to add Milk. Error: ${response.reasonPhrase}');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to add Milk. Error: $e');
+  //   }
+  // }
+
+//-------------Version 2 of Save Milk Function by using this function you Can Add data on the spot on View Milk Screen
+  // Future<String> addMilk(MilkRecord milk) async {
+  //   final response = await http.post(
+  //     Uri.parse('$base_url/Milk/SaveMilkCollection'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(milk.toJson()),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     throw Exception('Failed to save Milk');
+  //   }
+  // }
 
   Future<List<MilkRecord>> getAllMilkCollection() async {
     final response =
@@ -371,6 +539,353 @@ class ApiHandler {
       }
     } else {
       throw Exception('Failed to load Milk for date $date');
+    }
+  }
+
+  Future<double?> fetchRemainingMilk(int farmId, String type) async {
+    final url = '$base_url/Milk/CattleTypeTotalMilk?farmId=$farmId&type=$type';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data['TotalMilk'] ?? 0;
+      } else {
+        print('Failed to load data: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
+
+  Future<List<cattleAvgMilkRecord>> getAverageMilkForAllCattleOfAllTime(
+      int farmid) async {
+    final response = await http.get(Uri.parse(
+        '$base_url/Milk/GetAverageMilkForAllCattleOfAllTime?farmid=$farmid'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((data) => cattleAvgMilkRecord.fromJson(data))
+          .toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<cattleAvgMilkRecord> getAverageMilkForSpecificCattleTag(
+      String tag, int farmid) async {
+    final response = await http.get(Uri.parse(
+        '$base_url/Milk/GetAverageMilkForSpecificCattleTag?tag=$tag&farmid=$farmid'));
+
+    if (response.statusCode == 200) {
+      return cattleAvgMilkRecord.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  // Future<List<dynamic>> getAllSaledMilk() async {
+  //   final response =
+  //       await http.get(Uri.parse('$base_url/Milk/GetAllSaledMilk'));
+  //   if (response.statusCode == 200) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     throw Exception('Failed to load Milk Sale stock');
+  //   }
+  // }
+  Future<List<MilkSaleRecord>> getAllSaledMilk() async {
+    final response =
+        await http.get(Uri.parse('$base_url/Milk/GetAllSaledMilk'));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => MilkSaleRecord.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load Saled Cattle');
+    }
+  }
+  //-------------------Income Screen Api
+
+  Future<String> saleCattle(CattleSale cattleSale) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$base_url/Cattle/SaleCattle'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(cattleSale.toJson()),
+      );
+
+      if (response.statusCode == 200) {
+        return 'Cattle ${cattleSale.cattleTag} sale successfully';
+      } else {
+        throw Exception('Failed to sale cattle: ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server: $e');
+    }
+  }
+
+  Future<void> saveMilkSales(List<MilkSaleRecord> milkSales) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$base_url/Milk/MilkSale'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(milkSales.map((m) => m.toJson()).toList()),
+      );
+
+      if (response.statusCode == 200) {
+        print('Milk sales saved successfully.');
+      } else {
+        throw Exception('Failed to save milk sales.');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+//--------------------Add Expense Screen Api
+  Future<String> saveFoodStock(FoodStock foodStock) async {
+    final response = await http.post(
+      Uri.parse('$base_url/Food/SaveFoodStock'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(foodStock.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return 'Food stock saved successfully';
+    } else {
+      throw Exception('Failed to save food stock');
+    }
+  }
+
+  Future<String> saveVaccineStock(Vaccination vaccination) async {
+    final response = await http.post(
+      Uri.parse('$base_url/Vaccination/SaveVaccineStock'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(vaccination.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return 'Vaccine stock saved successfully';
+    } else {
+      throw Exception('Failed to save vaccine stock');
+    }
+  }
+
+  Future<List<Vaccination>> getAllVaccinationsStock() async {
+    final response = await http
+        .get(Uri.parse('$base_url/Vaccination/GetAllVaccinationsStock'));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => Vaccination.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load Vaccination');
+    }
+  }
+
+  //---------------------------------Inject Vaccine Code
+
+  Future<String> saveInjectedVaccine(InjectedVaccination vaccination) async {
+    final response = await http.post(
+      Uri.parse('$base_url/Vaccination/SaveInjectedVaccine'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(vaccination.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to save injected vaccination');
+    }
+  }
+
+  Future<InjectedVaccination?> getLastInjectedVaccineForTag(String tag) async {
+    final response = await http.get(Uri.parse(
+        '$base_url/Vaccination/GetLastInjectedVaccineForTag?tag=$tag'));
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON
+      return InjectedVaccination.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server returns an error response, throw an exception
+      throw 'Tag = $tag cattle not vaccinated yet';
+    }
+  }
+  //-----------------Consume Food API
+
+  // Future<List<FoodStock>> getAllFoodStock() async {
+  //   final response = await http.get(Uri.parse('$base_url/Food/GetAllFood'));
+  //   if (response.statusCode == 200) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     throw Exception('Failed to load food stock');
+  //   }
+  // }
+  Future<List<FoodStock>> getAllFoodStock() async {
+    final response = await http.get(Uri.parse('$base_url/Food/GetAllFood'));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => FoodStock.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load food stock');
+    }
+  }
+
+  Future<List<FoodStock>> remainingFoodStock() async {
+    final response =
+        await http.get(Uri.parse('$base_url/Food/GetRemainingFood'));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => FoodStock.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load food stock');
+    }
+  }
+
+  // Future<List<String>> getAllFood() async {
+  //   final response = await http.get(Uri.parse('$base_url/Food/GetAllFood'));
+  //   if (response.statusCode == 200) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     throw Exception('Failed to load food stock');
+  //   }
+  // }
+  //   Future<Map<String, dynamic>> getAllFood() async {
+  //   final response = await http.get(Uri.parse('$base_url/Food/GetAllFood'));
+  //   if (response.statusCode == 200) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     throw Exception('Failed to load food data');
+  //   }
+  // }
+
+  // Future<String> saveConsumeFood(
+  //     String type, String food, String date, int farmId) async {
+  //   final response = await http.post(
+  //     Uri.parse('$base_url/Food/saveConsumeFood'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, dynamic>{
+  //       'type': type,
+  //       'food': food,
+  //       'date': date,
+  //       'farmId': farmId,
+  //     }),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     return response.body;
+  //   } else {
+  //     throw Exception('Failed to save consume food');
+  //   }
+  // }
+
+  // Future<void> consumeFood({
+  //   required String cattleType,
+  //   required String fodderType,
+  //   required String date,
+  //   required int farmid,
+  // }) async {
+  //   final response = await http.post(
+  //     Uri.parse('$base_url/Food/SaveConsumeFood'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode({
+  //       'cattleType': cattleType,
+  //       'fodderType': fodderType,
+  //       'date': date,
+  //       'farmId': farmid
+  //     }),
+  //   );
+
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to consume food');
+  //   }
+  // }
+
+  Future<void> consumeFood({
+    required String cattleType,
+    required String fodderType,
+    required String date,
+    required int farmId, // Add this if required by the API
+  }) async {
+    final response = await http.post(
+      Uri.parse('$base_url/Food/SaveConsumeFood'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'cattleType': cattleType,
+        'fodderType': fodderType,
+        'date': date,
+        'farmId': farmId, // Add this if required by the API
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to consume food');
+    }
+  }
+  // Future<void> consumeSpecialFood(
+  //     {required String tag,
+  //     required String food,
+  //     required double quantity,
+  //     required String date,
+  //     required int farmId}) async {
+  //   final response = await http.post(
+  //     Uri.parse('$base_url/Food/ConsumeFoodSpecialCase'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode({
+  //       'tag': tag,
+  //       'food': food,
+  //       'quantity': quantity,
+  //       'date': date,
+  //       'farmId': farmId,
+  //     }),
+  //   );
+
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to consume special food');
+  //   }
+  // }
+
+  Future<void> consumeSpecialFood({
+    required String tag,
+    required String foodType,
+    required double quantity,
+    required String date,
+    required int farmId,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$base_url/Food/ConsumeFoodSpecialCase'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'tag': tag,
+        'foodType': foodType,
+        'quantity': quantity,
+        'date': date,
+        'farmId': farmId,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to consume special food');
     }
   }
 

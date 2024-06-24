@@ -163,7 +163,7 @@ class _ViewCustomersScreenState extends State<ViewCustomersScreen> {
                   child: Card(
                     elevation: 3,
                     child: ListTile(
-                      title: Text('Name: ${record.name}'),
+                      title: Text('Name: ${record.Name}'),
                       subtitle: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,

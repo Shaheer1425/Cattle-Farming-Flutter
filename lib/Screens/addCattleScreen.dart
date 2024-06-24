@@ -1,4 +1,5 @@
 import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:cattlefarming/Models/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,7 +15,9 @@ class _AddCattleState extends State<AddCattle> {
   TextEditingController weightcon = TextEditingController();
   TextEditingController birthcon = TextEditingController();
   TextEditingController entryOnFarmcon = TextEditingController();
+  TextEditingController breedcon = TextEditingController();
   TextEditingController costcon = TextEditingController();
+
   String? selectedGender;
 
   Future<void> selectDate(
@@ -31,17 +34,24 @@ class _AddCattleState extends State<AddCattle> {
     }
   }
 
-  List<String> cattleBreedItem = [
-    'Sahiwal',
-    'Red Sindhi',
-    'Cholistan',
-    'Nili-Ravi',
-    'Bhagnari',
-    'Kundhi',
-    'Dajal',
-    'Barbari',
-    'Beetal',
-  ];
+  int farmId = 1;
+  @override
+  void initState() {
+    super.initState();
+    // farmId = FarmManager.getSelectedFarmId();
+  }
+
+  // List<String> cattleBreedItem = [
+  //   'Sahiwal',
+  //   'Red Sindhi',
+  //   'Cholistan',
+  //   'Nili-Ravi',
+  //   'Bhagnari',
+  //   'Kundhi',
+  //   'Dajal',
+  //   'Barbari',
+  //   'Beetal',
+  // ];
   List<String> cattleTypeItem = [
     'Cow',
     'Buffalo',
@@ -237,37 +247,56 @@ class _AddCattleState extends State<AddCattle> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
+              // Cattle Breed Dropdown
+              // Container(
+              //   width: 300,
+              //   height: 60,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(20.0),
+              //     border: Border.all(color: const Color(0xFF02B7C8)),
+              //   ),
+              //   child: Center(
+              //     child: SizedBox(
+              //       width: 240,
+              //       child: DropdownButton<String>(
+              //         value: breedSelected,
+              //         underline: const SizedBox(),
+              //         hint: const Text("Sahiwal"),
+              //         items: cattleBreedItem.map((String e) {
+              //           return DropdownMenuItem<String>(
+              //             value: e,
+              //             child: Text(e),
+              //           );
+              //         }).toList(),
+              //         onChanged: (newSelectedVal) {
+              //           setState(() {
+              //             breedSelected = newSelectedVal;
+              //           });
+              //         },
+              //         isExpanded: true,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
               Container(
                 width: 300,
                 height: 60,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(color: const Color(0xFF02B7C8)),
-                ),
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(color: const Color(0xFF02B7C8))),
                 child: Center(
-                  child: SizedBox(
-                    width: 240,
-                    child: DropdownButton<String>(
-                      value: breedSelected,
-                      underline: const SizedBox(),
-                      hint: const Text("Sahiwal"),
-                      items: cattleBreedItem.map((String e) {
-                        return DropdownMenuItem<String>(
-                          value: e,
-                          child: Text(e),
-                        );
-                      }).toList(),
-                      onChanged: (newSelectedVal) {
-                        setState(() {
-                          breedSelected = newSelectedVal;
-                        });
-                      },
-                      isExpanded: true,
+                  child: TextFormField(
+                    controller: breedcon,
+                    decoration: const InputDecoration(
+                      hintText: 'Sahiwali',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                     ),
                   ),
                 ),
               ),
-              // Cattle Type Dropdown
+
               Padding(
                 padding: const EdgeInsets.only(bottom: 8, left: 8),
                 child: Text(
@@ -422,7 +451,7 @@ class _AddCattleState extends State<AddCattle> {
                         'CattleType': typeSelected,
                         'CattleObtained': obtainedSelected,
                         'Status': 'Alive',
-                        'FarmID': 1,
+                        'FarmID': farmId,
                         if (isPurchasedSelected) 'cost': costcon.text,
                       };
 

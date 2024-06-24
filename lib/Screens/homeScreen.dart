@@ -1,6 +1,7 @@
+import 'package:cattlefarming/Models/global.dart';
 import 'package:cattlefarming/Screens/FodderScreen.dart';
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
-import 'package:cattlefarming/Screens/addMilkScreen.dart';
+import 'package:cattlefarming/Screens/addMilkOldScreen.dart';
 import 'package:cattlefarming/Screens/adminDashbordScreen.dart';
 import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
 import 'package:cattlefarming/Screens/activities.dart';
@@ -10,6 +11,7 @@ import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/milkScreen.dart';
 import 'package:cattlefarming/Screens/notificationScreen.dart';
+import 'package:cattlefarming/Screens/signInScreen.dart';
 import 'package:cattlefarming/Screens/transactionScreen.dart';
 import 'package:cattlefarming/Screens/viewCattleScreen.dart';
 import 'package:cattlefarming/Screens/viewCustomers.dart';
@@ -17,7 +19,7 @@ import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewOtherFarms.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
-import 'package:cattlefarming/Screens/weightScreen.dart';
+import 'package:cattlefarming/Screens/addWeightScreen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -42,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    int farmId = FarmManager.getSelectedFarmId();
     return Scaffold(
         appBar: AppBar(
           leading: Builder(
@@ -84,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const DrawerHeader(
                 //  padding : const EdgeInsets.fromLTRB(10.0, 16.0, 16.0, 8.0),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF02B7C8),
+                  color: Color(0xFF039BA8),
                 ),
                 child: Center(
                     child: Text(
@@ -158,6 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ViewOtherFarmsScreen()));
+                },
+              ),
+              ListTile(
+                title: const Text('Sign Out'),
+                leading: Icon(Icons.logout),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SignIn()));
                 },
               ),
             ],
@@ -332,29 +343,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 70,
-                      child: Image.asset(
-                        "assets/images/reports.png",
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TransactionsScreen())),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 70,
+                        child: Image.asset(
+                          "assets/images/transaction.png",
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Report",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
+                      Text(
+                        "Transactions",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 10),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -395,33 +410,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TransactionsScreen())),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 70,
-                        child: Image.asset(
-                          "assets/images/transaction.png",
-                        ),
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 70,
+                      child: Image.asset(
+                        "assets/images/reports.png",
                       ),
-                      Text(
-                        "Transactions",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(blurRadius: 10),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Colors.white,
-                  ),
+                    ),
+                    Text(
+                      "Report",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(blurRadius: 10),
+                  ],
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -433,7 +444,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _navBar() {
     return Container(
       height: 70,
-      color: const Color(0xFF02B7C8),
+      color: Color(0xFF039BA8),
       child: Padding(
           padding:
               const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
@@ -460,12 +471,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 IconButton(
                   icon: Icon(
-                    Icons.add,
+                    Icons.home,
                     color: const Color(0xFF02B7C8),
                     size: 35,
                   ),
                   onPressed: () {
-                    // Handle Add to Cart action
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                 ),
                 IconButton(

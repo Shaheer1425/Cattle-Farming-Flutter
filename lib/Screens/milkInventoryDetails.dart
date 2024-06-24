@@ -1,4 +1,355 @@
-/*import 'package:flutter/material.dart';
+import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:flutter/material.dart';
+
+class MilkInventoryDetailsScreen extends StatefulWidget {
+  const MilkInventoryDetailsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MilkInventoryDetailsScreen> createState() =>
+      _MilkInventoryDetailsScreenState();
+}
+
+class _MilkInventoryDetailsScreenState
+    extends State<MilkInventoryDetailsScreen> {
+  int selectedIndex = -1;
+  double? remainingMilk = 0;
+  // late ApiHandler apiHandler;
+  ApiHandler apiHandler = ApiHandler();
+  @override
+  void initState() {
+    super.initState();
+    apiHandler = ApiHandler(); // Initialize apiHandler here
+    // ApiHandler.setBaseUrl(
+    //     'http://192.168.18.132/CattleFarmingAPI/api/'); // Base URL
+  }
+
+  Future<void> fetchRemainingMilk(int farmId, String type) async {
+    final milk = await apiHandler.fetchRemainingMilk(farmId, type);
+    setState(() {
+      remainingMilk = milk;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            "Milk Stock",
+            style: TextStyle(
+              fontSize: 25,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: SingleChildScrollView(
+          // Wrap with SingleChildScrollView to prevent overflow
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      width: 170,
+                      height: 170,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 238, 243, 243),
+                        borderRadius: BorderRadius.all(Radius.circular(85)),
+                        border: Border.all(color: const Color(0xFF02B7C8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(
+                                0xFF02B7C8), // Shadow color and opacity
+                            spreadRadius: 1, // Shadow spread radius
+                            blurRadius: 5, // Shadow blur radius
+                            offset: Offset(0, 0), // Shadow offset
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: 17,
+                      left: 68,
+                      child: Text(
+                        "$remainingMilk",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Positioned(
+                      top: 55,
+                      left: 40,
+                      child: Text("Liter Remaining"),
+                    ),
+                    Positioned(
+                      bottom: 15,
+                      left: 50,
+                      child: Image.asset(
+                        "assets/images/milk.png",
+                        width: 70,
+                        height: 70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              GridView.count(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                childAspectRatio: 0.9,
+                padding: const EdgeInsets.all(5.0),
+                children: [
+                  buildGridItem(0, "Goat", "assets/images/goat.png", 1),
+                  buildGridItem(1, "Cow", "assets/images/cow.png", 1),
+                  buildGridItem(2, "Buffalo", "assets/images/buffalo.png", 1),
+                  buildGridItem(
+                      3, "TotalMilk", "assets/images/Shoping Card rack.png", 1),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildGridItem(int index, String title, String imagePath, int farmId) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            selectedIndex = index;
+            fetchRemainingMilk(farmId, title);
+          });
+        },
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 100,
+                height: 70,
+                child: Image.asset(
+                  imagePath,
+                ),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  color:
+                      selectedIndex == index ? Color(0xFF02B7C8) : Colors.black,
+                ),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: selectedIndex == index
+                  ? Color(0xFF02B7C8)
+                  : Colors.transparent,
+              width: 2, // Change border width when selected
+            ),
+            boxShadow: [
+              BoxShadow(blurRadius: 5),
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// import 'package:cattlefarming/Models/apiHandler.dart';
+// import 'package:flutter/material.dart';
+
+// class MilkInventoryDetailsScreen extends StatefulWidget {
+//   const MilkInventoryDetailsScreen({Key? key}) : super(key: key);
+
+//   @override
+//   State<MilkInventoryDetailsScreen> createState() =>
+//       _MilkInventoryDetailsScreenState();
+// }
+
+// class _MilkInventoryDetailsScreenState
+//     extends State<MilkInventoryDetailsScreen> {
+//   int selectedIndex = -1;
+//   int? remainingMilk = 0;
+//   late ApiHandler apiHandler;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     apiHandler = ApiHandler();
+//     ApiHandler.setBaseUrl(
+//         'http://192.168.18.132/CattleFarmingAPI/api/'); // Base URL
+//   }
+
+//   Future<void> fetchRemainingMilk(int farmId, String type) async {
+//     final milk = await apiHandler.fetchRemainingMilk(farmId, type);
+//     setState(() {
+//       remainingMilk = milk;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Center(
+//           child: Text(
+//             "Milk Stock",
+//             style: TextStyle(
+//               fontSize: 25,
+//               color: Colors.white,
+//             ),
+//           ),
+//         ),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(30.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Center(
+//               child: Stack(
+//                 children: <Widget>[
+//                   Container(
+//                     width: 170,
+//                     height: 170,
+//                     decoration: BoxDecoration(
+//                       color: Color.fromARGB(255, 238, 243, 243),
+//                       borderRadius: BorderRadius.all(Radius.circular(85)),
+//                       border: Border.all(color: const Color(0xFF02B7C8)),
+//                       boxShadow: [
+//                         BoxShadow(
+//                           color: const Color(
+//                               0xFF02B7C8), // Shadow color and opacity
+//                           spreadRadius: 1, // Shadow spread radius
+//                           blurRadius: 5, // Shadow blur radius
+//                           offset: Offset(0, 0), // Shadow offset
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   Positioned(
+//                     top: 17,
+//                     left: 68,
+//                     child: Text(
+//                       "$remainingMilk",
+//                       style:
+//                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+//                     ),
+//                   ),
+//                   Positioned(
+//                     top: 55,
+//                     left: 40,
+//                     child: Text("Liter Remaining"),
+//                   ),
+//                   Positioned(
+//                     bottom: 15,
+//                     left: 50,
+//                     child: Image.asset(
+//                       "assets/images/milk.png",
+//                       width: 70,
+//                       height: 70,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             SizedBox(
+//               height: 30,
+//             ),
+//             GridView.count(
+//               shrinkWrap: true,
+//               physics: NeverScrollableScrollPhysics(),
+//               crossAxisCount: 2,
+//               childAspectRatio: 0.9,
+//               padding: const EdgeInsets.all(5.0),
+//               children: [
+//                 buildGridItem(0, "Goat", "assets/images/goat.png", 1),
+//                 buildGridItem(1, "Cow", "assets/images/cow.png", 1),
+//                 buildGridItem(2, "Buffalo", "assets/images/buffalo.png", 1),
+//                 buildGridItem(
+//                     3, "TotalMilk", "assets/images/Shoping Card rack.png", 1),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget buildGridItem(int index, String title, String imagePath, int farmId) {
+//     return Padding(
+//       padding: const EdgeInsets.all(5.0),
+//       child: InkWell(
+//         onTap: () {
+//           setState(() {
+//             selectedIndex = index;
+//             fetchRemainingMilk(farmId, title);
+//           });
+//         },
+//         child: Container(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Container(
+//                 width: 100,
+//                 height: 70,
+//                 child: Image.asset(
+//                   imagePath,
+//                 ),
+//               ),
+//               Text(
+//                 title,
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   color:
+//                       selectedIndex == index ? Color(0xFF02B7C8) : Colors.black,
+//                 ),
+//               ),
+//             ],
+//           ),
+//           decoration: BoxDecoration(
+//             border: Border.all(
+//               color: selectedIndex == index
+//                   ? Color(0xFF02B7C8)
+//                   : Colors.transparent,
+//               width: 2, // Change border width when selected
+//             ),
+//             boxShadow: [
+//               BoxShadow(blurRadius: 5),
+//             ],
+//             borderRadius: BorderRadius.all(Radius.circular(20)),
+//             color: Colors.white,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+/*
+//--------------------without gride view origional code
+
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class MilkInventoryDetailsScreen extends StatefulWidget {
@@ -224,7 +575,11 @@ class _MilkInventoryDetailsScreenState
   }
 }
 */
-import 'package:flutter/material.dart';
+
+
+//-------------------code with gride view origional
+
+/*import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class MilkInventoryDetailsScreen extends StatefulWidget {
@@ -382,3 +737,4 @@ class _MilkInventoryDetailsScreenState
     );
   }
 }
+*/

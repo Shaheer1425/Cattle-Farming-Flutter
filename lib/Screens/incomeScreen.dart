@@ -1,11 +1,17 @@
+import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:cattlefarming/Models/cattleSaleClass.dart';
+import 'package:cattlefarming/Models/global.dart';
+import 'package:cattlefarming/Models/milksaleClass.dart';
 import 'package:cattlefarming/Screens/addCustomers.dart';
 import 'package:cattlefarming/Screens/expenseScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart';
 
 class NewIncomeScreen extends StatefulWidget {
-  const NewIncomeScreen({super.key});
+  final String? Stag;
+  const NewIncomeScreen({Key? key, this.Stag}) : super(key: key);
 
   @override
   State<NewIncomeScreen> createState() => _NewIncomeScreenState();
@@ -35,26 +41,186 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
   }
 
   List<String> incomeTypeItem = [
-    'Milk Sale',
     'Cattle Sale',
+    'Milk Sale',
   ];
 
   bool isMilkSaleSelected = false;
   bool isCattleSaleSelected = false;
-  String? incomeTypeSelected;
-  List<String> customerList = [
-    'Aslam',
-    'Ali',
-    'Barkat',
-  ];
+  String? incomeTypeSelected = 'Cattle Sale';
+  // List<String> customerList = [
+  //   'Aslam',
+  //   'Ali',
+  //   'Barkat',
+  // ];
 
-  String? customerSelected;
+  int? customerSelected;
+  // @override
+  // void dispose() {
+  //   milkQtycon.dispose()
+  //   salingPricePerLtrcon.dispose();
+  //   super.dispose();
+  // }
 
+  double totalPrice = 0;
+  void calculateTotalPrice() {
+    double quantity = double.tryParse(milkQtycon.text) ?? 0.0;
+    double pricePerLiter = double.tryParse(salingPricePerLtrcon.text) ?? 0.0;
+
+    setState(() {
+      totalPrice = (quantity * pricePerLiter).toDouble();
+      milkEarncon.text = 'Rs $totalPrice';
+    });
+  }
+
+  List<MilkSaleRecord> milkSaleEntries = [];
+
+  int farmId = 1;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    isMilkSaleSelected = true;
+    // isMilkSaleSelected = true;
+    isCattleSaleSelected = true;
+    fetchCustomerList();
+    // tagcon.text = widget.Stag!;
+    tagcon.text = widget.Stag ?? '';
+    //farmId = FarmManager.getSelectedFarmId();
+    //calculateTotalPrice();
+  }
+
+  // void addMilkSaleEntry() {
+  //   // Create a new MilkSaleEntry object with the entered data
+  //   MilkSaleRecord newEntry = MilkSaleRecord(
+  //       date: datecon.text,
+  //       cattleType: selectedCattle,
+  //       quantity: double.tryParse(milkQtycon.text) ?? 0.0,
+  //       pricePerLitre: double.tryParse(salingPricePerLtrcon.text) ?? 0.0,
+  //       totalPrice: totalPrice,
+  //       customerName: customerSelected,
+  //       note: notecon.text,
+  //       farmId: 1,
+  //       );
+
+  //   // Add the new entry to the list
+  //   setState(() {
+  //     milkSaleEntries.add(newEntry);
+  //   });
+
+  //   // Clear the input fields
+  //   datecon.clear();
+  //   milkQtycon.clear();
+  //   salingPricePerLtrcon.clear();
+  //   milkEarncon.clear();
+  //   tagcon.clear();
+  //   cattleEarncon.clear();
+  // }
+
+  // // Function to save all milk sale entries to the database
+  // void saveMilkSales() {
+  //   // You can implement database saving logic here
+  //   // For demonstration, I'm just printing the entries
+  //   for (var entry in milkSaleEntries) {
+  //     print(
+  //         'Date: ${entry.date}, Cattle Type: ${entry.cattleType}, Quantity: ${entry.quantity}, Price per litre: ${entry.pricePerLitre}, Total Price: ${entry.totalPrice}');
+  //     // Save each entry to the database
+  //   }
+
+  //   // Clear the milk sale entries list after saving
+  //   setState(() {
+  //     milkSaleEntries.clear();
+  //   });
+
+  //   // Clear other input fields
+  //   datecon.clear();
+  //   milkQtycon.clear();
+  //   salingPricePerLtrcon.clear();
+  //   milkEarncon.clear();
+  //   tagcon.clear();
+  //   cattleEarncon.clear();
+  // }
+
+  //-------------------------------------
+  // Inside _NewIncomeScreenState class
+
+  final ApiHandler apiHandler = ApiHandler();
+
+  void saveCattleSale(String cattleTag) async {
+    try {
+      final response = await apiHandler.saleCattle(
+        CattleSale(
+          id: 0, // Set the ID according to your requirement
+          date: datecon.text, // Set the date
+          amount:
+              double.tryParse(cattleEarncon.text), // Set the amount if needed
+          customerId: customerSelected!, // Set the customer ID
+          cattleTag: tagcon.text,
+          farmId: farmId, // Set the farm ID
+        ),
+      );
+      print(response); // Print the response or handle it as needed
+    } catch (e) {
+      print('Error saving cattle sale: $e');
+      // Handle the error as needed
+    }
+  }
+
+  void saveMilkSales(List<MilkSaleRecord> milkSales) {
+    try {
+      apiHandler.saveMilkSales(milkSales);
+    } catch (e) {
+      print('Error saving milk sales: $e');
+    }
+  }
+
+// Call these methods where appropriate, for example, when adding a new milk sale entry
+  void addMilkSaleEntry() {
+    // Create a new MilkSaleRecord object with the entered data
+    MilkSaleRecord newEntry = MilkSaleRecord(
+      date: datecon.text,
+      cattleType: selectedCattle,
+      quantity: double.tryParse(milkQtycon.text) ?? 0.0,
+      pricePerLitre: double.tryParse(salingPricePerLtrcon.text) ?? 0.0,
+      totalPrice: totalPrice,
+      customerid: customerSelected!,
+      note: notecon.text,
+      farmId: farmId,
+    );
+
+    // Add the new entry to the list
+    setState(() {
+      milkSaleEntries.add(newEntry);
+    });
+
+    // Clear the input fields
+    // datecon.clear();
+    milkQtycon.clear();
+    salingPricePerLtrcon.clear();
+    milkEarncon.clear();
+
+    // Save milk sales to the server
+    // saveMilkSales(milkSaleEntries);
+  }
+
+  bool checkMilk = true;
+  void MilkSaleCondition() {
+    if (checkMilk == true) {
+      addMilkSaleEntry();
+      saveMilkSales(milkSaleEntries);
+    } else {
+      // saveMilkSales(milkSaleEntries);
+      addMilkSaleEntry();
+    }
+  }
+
+  List<dynamic> customersList = [];
+  Future<void> fetchCustomerList() async {
+    ApiHandler apiHandler = ApiHandler();
+    customersList = await apiHandler.getAllCustomer();
+    setState(() {
+      // customerSelected = customersList.isNotEmpty ? 0 : -1;
+      customerSelected = customersList.isNotEmpty ? 1 : 0;
+    });
   }
 
   @override
@@ -114,6 +280,76 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                   ),
                 ),
               ),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8, left: 8),
+                child: Text(
+                  "Select Customer",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 250,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(color: const Color(0xFF02B7C8)),
+                    ),
+                    // const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: 240,
+                        child: DropdownButton<int>(
+                          value: customerSelected,
+                          underline: SizedBox(),
+                          hint: Text("Select Customer"),
+                          items: [
+                            DropdownMenuItem<int>(
+                              value: 0,
+                              child: Text("Select Customer"),
+                            ),
+                            if (customersList.isNotEmpty)
+                              for (var i = 0; i < customersList.length; i++)
+                                DropdownMenuItem<int>(
+                                  value: i + 1, // Start index from 1
+                                  child: Text(
+                                      '${customersList[i]['Name']}\n${customersList[i]['Contact']}'),
+                                ),
+                          ],
+                          onChanged: (newSelectedIndex) {
+                            setState(() {
+                              customerSelected = newSelectedIndex!;
+                            });
+                          },
+                          isExpanded: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFF039BA8),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddCustomersScreen()));
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        )),
+                  )
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8, left: 8),
                 child: Text(
@@ -134,7 +370,7 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                     child: DropdownButton<String>(
                       value: incomeTypeSelected,
                       underline: const SizedBox(),
-                      hint: const Text("Milk Sale"),
+                      hint: const Text("Cattle Sale"),
                       items: [
                         DropdownMenuItem<String>(
                           value: "Select Income Type",
@@ -226,6 +462,7 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                       border: Border.all(color: const Color(0xFF02B7C8))),
                   child: Center(
                     child: TextFormField(
+                      keyboardType: TextInputType.numberWithOptions(),
                       controller: milkQtycon,
                       decoration: const InputDecoration(
                         hintText: '30 ltr',
@@ -264,27 +501,58 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8, left: 8),
                   child: Text(
-                    "How much earn",
+                    "Total Price",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                Container(
-                  width: 300,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(color: const Color(0xFF02B7C8))),
-                  child: Center(
-                    child: TextFormField(
-                      controller: milkEarncon,
-                      decoration: const InputDecoration(
-                        hintText: 'Rs 3600',
-                        hintStyle: TextStyle(),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                InkWell(
+                  onTap: () => calculateTotalPrice(),
+                  child: Container(
+                    width: 300,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(color: const Color(0xFF02B7C8))),
+                    child: Center(
+                      child: TextFormField(
+                        enabled: false,
+                        controller: milkEarncon,
+                        decoration: const InputDecoration(
+                          hintText: 'Rs 3600',
+                          hintStyle: TextStyle(),
+                          border: InputBorder.none,
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 30.0),
+                        ),
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    //addMilkSaleEntry(); // Add a new milk sale entry
+                    checkMilk = false;
+                    MilkSaleCondition();
+                  },
+                  child: Text('Add More Milk'),
+                ),
+
+                // List of entered milk sale entries
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: milkSaleEntries.length,
+                  itemBuilder: (context, index) {
+                    // Display each milk sale entry in a ListTile
+                    final entry = milkSaleEntries[index];
+                    return ListTile(
+                      title: Text('Cattle Type: ${entry.cattleType}'),
+                      subtitle: Text(
+                          'Quantity: ${entry.quantity} litres\nPrice per litre: Rs ${entry.pricePerLitre}\nTotal Price: Rs ${entry.totalPrice}'),
+                    );
+                  },
                 ),
               ],
 
@@ -341,108 +609,32 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                   ),
                 ),
               ],
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8, left: 8),
-                child: Text(
-                  "Select Customer",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    width: 250,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(color: const Color(0xFF02B7C8)),
-                    ),
-                    child: Center(
-                      child: SizedBox(
-                        width: 240,
-                        child: DropdownButton<String>(
-                          value: customerSelected,
-                          underline: const SizedBox(),
-                          hint: Padding(
-                            padding: const EdgeInsets.only(left: 27.0),
-                            child: const Text("Aslam"),
-                          ),
-                          items: [
-                            DropdownMenuItem<String>(
-                              value: "Select Customer",
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 27.0),
-                                child: const Text("Select Customer"),
-                              ),
-                            ),
-                            ...customerList.map((String e) {
-                              return DropdownMenuItem<String>(
-                                value: e,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 27.0),
-                                  child: Text(e),
-                                ),
-                              );
-                            }),
-                          ],
-                          onChanged: (newSelectedVal) {
-                            setState(() {
-                              customerSelected = newSelectedVal;
-                              // Update the boolean variable based on the selection
-                            });
-                          },
-                          isExpanded: true,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: const Color(0xFF039BA8),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AddCustomersScreen()));
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        )),
-                  )
-                ],
-              ),
 
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8, left: 8),
-                child: Text(
-                  "Write Note",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Container(
-                width: 300,
-                height: 60,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: const Color(0xFF02B7C8))),
-                child: Center(
-                  child: TextFormField(
-                    controller: notecon,
-                    decoration: const InputDecoration(
-                      hintText: 'Write Some Note',
-                      hintStyle: TextStyle(),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 8, left: 8),
+              //   child: Text(
+              //     "Write Note",
+              //     style: TextStyle(fontSize: 20),
+              //   ),
+              // ),
+              // Container(
+              //   width: 300,
+              //   height: 60,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(20.0),
+              //       border: Border.all(color: const Color(0xFF02B7C8))),
+              //   child: Center(
+              //     child: TextFormField(
+              //       controller: notecon,
+              //       decoration: const InputDecoration(
+              //         hintText: 'Write Some Note',
+              //         hintStyle: TextStyle(),
+              //         border: InputBorder.none,
+              //         contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+              //       ),
+              //     ),
+              //   ),
+              // ),
 
               Padding(
                 padding: const EdgeInsets.only(top: 15),
@@ -456,11 +648,20 @@ class _NewIncomeScreenState extends State<NewIncomeScreen> {
                           const Color(0xFF039BA8),
                         )),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => NewExpenseScreen()));
+                          if (isMilkSaleSelected) {
+                            //  saveMilkSales(milkSaleEntries);
+                            checkMilk = true;
+                            MilkSaleCondition();
+                          } else {
+                            if (tagcon.text.isNotEmpty) {
+                              saveCattleSale(tagcon.text);
+                            } else {
+                              print('Cattle tag is null');
+                            }
+                          }
                         },
                         child: const Text(
-                          "Add Now",
+                          "Save",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,

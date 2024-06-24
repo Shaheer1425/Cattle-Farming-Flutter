@@ -1,5 +1,6 @@
 import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/customerClass.dart';
+import 'package:cattlefarming/Models/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -16,14 +17,22 @@ class _AddCustomersScreenState extends State<AddCustomersScreen> {
   TextEditingController contactcon = TextEditingController();
 
   final ApiHandler apiHandler = ApiHandler();
+  int farmId = 1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //farmId = FarmManager.getSelectedFarmId();
+  }
 
   Future<void> saveCustomer() async {
     try {
       // Create a Weight object with the input values
       final customer = CustomerRecord(
-        name: namecon.text,
+        Name: namecon.text,
         address: addresscon.text,
         contact: contactcon.text,
+        //   farmId: farmId
       );
 
       // Call the API to save the weight

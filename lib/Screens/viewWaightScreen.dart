@@ -222,7 +222,7 @@
 
 import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/weightClass.dart';
-import 'package:cattlefarming/Screens/weightScreen.dart';
+import 'package:cattlefarming/Screens/addWeightScreen.dart';
 import 'package:flutter/material.dart';
 
 class ViewWeightScreen extends StatefulWidget {
@@ -274,7 +274,7 @@ class _ViewWeightScreenState extends State<ViewWeightScreen> {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Weight Record",
+            "Metrics Record",
             style: TextStyle(
               fontSize: 25,
               color: Colors.white,
@@ -399,21 +399,37 @@ class _ViewWeightScreenState extends State<ViewWeightScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Tag: ${record.tag}'),
-                          Text('Weight: ${record.weight}'),
+                          Text('Weight: ${record.weight} KG'),
                         ],
                       ),
                       subtitle: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 35, bottom: 10),
-                            child: Text(
-                              'Date: ${record.date}',
-                              style: TextStyle(
-                                fontSize: 16,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 35, bottom: 10),
+                                child: Text(
+                                  'Date: ${record.date}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 35, bottom: 10),
+                                child: Text(
+                                  'Height: ${record.height} CM',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,5 +1,320 @@
-// view_cattle_screen.dart
 import 'package:cattlefarming/Models/apiHandler.dart';
+import 'package:cattlefarming/Models/global.dart';
+import 'package:cattlefarming/Models/viewcattleClass.dart';
+import 'package:flutter/material.dart';
+
+import 'addCattleScreen.dart';
+import 'showCattleInfoScreen.dart';
+
+class ViewCattleScreen extends StatefulWidget {
+  const ViewCattleScreen({super.key});
+
+  @override
+  State<ViewCattleScreen> createState() => _ViewCattleScreenState();
+}
+
+class _ViewCattleScreenState extends State<ViewCattleScreen> {
+  TextEditingController tagcon = TextEditingController();
+  List<String> vaccineStatusList = ['Vaccinated', 'Not Vaccinated'];
+  List<String> cattleTypeList = ['Cow', 'Buffalo', 'Goat'];
+  List<String> cattleAvailableList = ['Alive', 'Dead', 'Sold'];
+
+  String? availableCattleSelected = 'Alive';
+  String? vaccineStatusSelected;
+  String? typeSelected;
+  List<viewCattleRecord> cattleList = [];
+  //int Id = 1;
+  int farmId = 1;
+  @override
+  void initState() {
+    super.initState();
+    // farmId = FarmManager.getSelectedFarmId();
+    _fetchCattleData(); // Call fetchCattleData() in initState
+  }
+
+  Future<void> _fetchCattleData() async {
+    try {
+      final List<viewCattleRecord> fetchedCattle =
+          await ApiHandler.fetchCattlewithFarm(
+        status: availableCattleSelected,
+        type: typeSelected,
+        isVaccinate: vaccineStatusSelected,
+        id: farmId,
+      );
+      setState(() {
+        cattleList = fetchedCattle;
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _searchCattleByTag() async {
+    try {
+      final viewCattleRecord? cattle = await ApiHandler.searchCattleByTag(
+        tag: tagcon.text,
+        farmId: farmId!,
+      );
+      if (cattle != null) {
+        setState(() {
+          cattleList = [cattle];
+        });
+      } else {
+        setState(() {
+          cattleList = [];
+        });
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Widget _buildDropdown(
+    String hint,
+    List<String> items,
+    String? selectedValue,
+    ValueChanged<String?> onChanged,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+        width: 200,
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(color: const Color(0xFF02B7C8)),
+        ),
+        child: Center(
+          child: SizedBox(
+            width: 140,
+            child: DropdownButton(
+              value: selectedValue,
+              underline: SizedBox(),
+              hint: Text(hint),
+              items: items.map((String option) {
+                return DropdownMenuItem(
+                  value: option,
+                  child: Text(option),
+                );
+              }).toList(),
+              onChanged: onChanged,
+              isExpanded: true,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            "View Cattle",
+            style: TextStyle(fontSize: 25, color: Colors.white),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => AddCattle()));
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // SizedBox(height: 15),
+            // Container(
+            //   width: 300,
+            //   height: 60,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(20.0),
+            //     border: Border.all(color: const Color(0xFF02B7C8)),
+            //   ),
+            //   child: Center(
+            //     child: TextFormField(
+            //       controller: tagcon,
+            //       decoration: InputDecoration(
+            //         hintText: 'Search by Tag',
+            //         border: InputBorder.none,
+            //         contentPadding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+            //         suffixIcon: tagcon.text.isEmpty
+            //             ? IconButton(
+            //                 icon: Icon(Icons.search),
+            //                 onPressed: () async {
+            //                   cattleList.clear();
+            //                   await _searchCattleByTag();
+            //                 },
+            //               )
+            //             : IconButton(
+            //                 icon: Icon(Icons.clear),
+            //                 onPressed: () {
+            //                   tagcon.clear();
+            //                   _fetchCattleData(); // Fetch all cattle data
+            //                   setState(() {});
+            //                 },
+            //               ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 25.0, bottom: 18),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildDropdown(
+                      "Alive",
+                      cattleAvailableList,
+                      availableCattleSelected,
+                      (newValue) {
+                        setState(() {
+                          availableCattleSelected = newValue;
+                          _fetchCattleData();
+                        });
+                      },
+                    ),
+                    _buildDropdown(
+                      "Select Type",
+                      cattleTypeList,
+                      typeSelected,
+                      (newValue) {
+                        setState(() {
+                          typeSelected = newValue;
+                          _fetchCattleData();
+                        });
+                      },
+                    ),
+                    _buildDropdown(
+                      "Select Vaccine Status",
+                      vaccineStatusList,
+                      vaccineStatusSelected,
+                      (newValue) {
+                        setState(() {
+                          vaccineStatusSelected = newValue;
+                          _fetchCattleData();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: cattleList.length,
+              itemBuilder: (context, index) {
+                final record = cattleList[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 3,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              CattleInfoScreen(cTag: cattleList[index].tag),
+                        ));
+                      },
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Tag: ${record.tag}'),
+                          Container(
+                            width: 135,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: record.vaccineStatus == 'Vaccinated'
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                            child: Center(
+                              child: Text(record.vaccineStatus),
+                            ),
+                          ),
+                        ],
+                      ),
+                      subtitle: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 35, bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Weight : ${record.weight}',
+                                    style: TextStyle(fontSize: 16)),
+                                Text('Cattle Type: ${record.cattleType}',
+                                    style: TextStyle(fontSize: 16)),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFF039BA8)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  fixedSize: MaterialStateProperty.all<Size>(
+                                      Size(90, 15)),
+                                ),
+                                onPressed: () {},
+                                child: Text('Edit'),
+                              ),
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFF039BA8)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  fixedSize: MaterialStateProperty.all<Size>(
+                                      Size(90, 15)),
+                                ),
+                                onPressed: () {},
+                                child: Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+// -----view_cattle_screen 2
+
+
+/*import 'package:cattlefarming/Models/apiHandler.dart';
 import 'package:cattlefarming/Models/cattleInfClass.dart';
 import 'package:cattlefarming/Models/viewcattleClass.dart';
 import 'package:cattlefarming/Screens/addCattleScreen.dart';
@@ -350,7 +665,7 @@ class _ViewCattleScreenState extends State<ViewCattleScreen> {
   }
 }
 
-
+*/
 
 
 

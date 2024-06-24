@@ -20,7 +20,7 @@ class _SignUpState extends State<SignUp> {
   List<dynamic> farmList = [];
   int farmSelected = -1;
   String? roleSelected;
-
+  bool isVisibal = false;
   @override
   void initState() {
     super.initState();
@@ -173,14 +173,29 @@ class _SignUpState extends State<SignUp> {
                   borderRadius: BorderRadius.circular(40.0),
                   border: Border.all(color: const Color(0xFF02B7C8)),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Center(
                   child: TextFormField(
                     controller: passcon,
-                    decoration: const InputDecoration(
+                    obscureText: !isVisibal,
+                    decoration: InputDecoration(
                       hintText: 'Password',
                       hintStyle: TextStyle(),
+                      //contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isVisibal ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isVisibal = !isVisibal;
+                          });
+                        },
+                      ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 17),
                     ),
                   ),
                 ),
@@ -224,14 +239,28 @@ class _SignUpState extends State<SignUp> {
                   borderRadius: BorderRadius.circular(40.0),
                   border: Border.all(color: const Color(0xFF02B7C8)),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Center(
                   child: TextFormField(
                     controller: confirmPassCon,
-                    decoration: const InputDecoration(
+                    obscureText: !isVisibal,
+                    decoration: InputDecoration(
                       hintText: 'Confirm Password',
                       hintStyle: TextStyle(),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isVisibal ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isVisibal = !isVisibal;
+                          });
+                        },
+                      ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 17),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -317,44 +346,83 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: 300,
-                height: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40.0),
-                  border: Border.all(color: const Color(0xFF02B7C8)),
+              if (roleSelected != "Admin") ...[
+                const SizedBox(
+                  height: 20,
                 ),
-                child: Center(
-                  child: SizedBox(
-                    width: 240,
-                    child: DropdownButton<int>(
-                      value: farmSelected,
-                      underline: SizedBox(),
-                      hint: Text("Select Farm"),
-                      items: [
-                        DropdownMenuItem<int>(
-                          value: -1,
-                          child: Text("Select Farm"),
-                        ),
-                        for (var farm in farmList)
+                // Container(
+                //   width: 300,
+                //   height: 70,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(40.0),
+                //     border: Border.all(color: const Color(0xFF02B7C8)),
+                //   ),
+                //   child: Center(
+                //     child: SizedBox(
+                //       width: 240,
+                //       child: DropdownButton<int>(
+                //         value: farmSelected == -1 ? null : farmSelected + 1,
+                //         underline: SizedBox(),
+                //         hint: Text("Select Farm"),
+                //         items: [
+                //           DropdownMenuItem<int>(
+                //             value: -1,
+                //             child: Text("Select Farm"),
+                //           ),
+                //           for (var farm in farmList)
+                //             DropdownMenuItem<int>(
+                //               value: farmList.indexOf(farm),
+                //               child: Text(farm['Name']),
+                //             ),
+                //         ],
+                //         onChanged: (newSelectedIndex) {
+                //           setState(() {
+                //             this.farmSelected = newSelectedIndex!;
+                //           });
+                //         },
+                //         isExpanded: true,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  width: 300,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40.0),
+                    border: Border.all(color: const Color(0xFF02B7C8)),
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      width: 240,
+                      child: DropdownButton<int>(
+                        value: farmSelected,
+                        underline: SizedBox(),
+                        hint: Text("Select Farm"),
+                        items: [
                           DropdownMenuItem<int>(
-                            value: farmList.indexOf(farm),
-                            child: Text(farm['Name']),
+                            value: 0,
+                            child: Text("Select Farm"),
                           ),
-                      ],
-                      onChanged: (newSelectedIndex) {
-                        setState(() {
-                          this.farmSelected = newSelectedIndex!;
-                        });
-                      },
-                      isExpanded: true,
+                          if (farmList.isNotEmpty)
+                            for (var i = 0; i < farmList.length; i++)
+                              DropdownMenuItem<int>(
+                                value: i + 1, // Start index from 1
+                                child: Text('${farmList[i]['Name']}'),
+                              ),
+                        ],
+                        onChanged: (newSelectedIndex) {
+                          setState(() {
+                            farmSelected = newSelectedIndex!;
+                          });
+                        },
+                        isExpanded: true,
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
+              //else ...[],
               const SizedBox(
                 height: 20,
               ),
@@ -373,17 +441,14 @@ class _SignUpState extends State<SignUp> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         int statuscode = 0;
-                        if (passcon != confirmPassCon) {
-                        } else {
-                          statuscode = await ApiHandler().signupnew(
-                              namecon.text,
-                              emailcon.text,
-                              confirmPassCon.text,
-                              contactCon.text,
-                              farmSelected,
-                              roleSelected!);
-                        }
-                        ;
+
+                        statuscode = await ApiHandler().signupnew(
+                            namecon.text,
+                            emailcon.text,
+                            confirmPassCon.text,
+                            contactCon.text,
+                            farmSelected,
+                            roleSelected!);
 
                         if (statuscode == 200) {
                           showDialog(

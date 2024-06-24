@@ -1,36 +1,10 @@
-import 'package:cattlefarming/Screens/addCustomers.dart';
+import 'package:cattlefarming/Screens/addmilknewscreen.dart';
 import 'package:cattlefarming/Screens/adminDashbordScreen.dart';
-import 'package:cattlefarming/Screens/cattleAvgMilkScreen.dart';
-
-import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
-import 'package:cattlefarming/Screens/activities.dart';
-import 'package:cattlefarming/Screens/expenseScreen.dart';
-import 'package:cattlefarming/Screens/addFarmScreen.dart';
-import 'package:cattlefarming/Screens/farmSetup.dart';
-import 'package:cattlefarming/Screens/fodderStockScreen.dart';
-import 'package:cattlefarming/Screens/incomeScreen.dart';
-import 'package:cattlefarming/Screens/addCattleScreen.dart';
-import 'package:cattlefarming/Screens/addMilkScreen.dart';
 import 'package:cattlefarming/Screens/homeScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
-import 'package:cattlefarming/Screens/notificationScreen.dart';
-import 'package:cattlefarming/Screens/showCattleInfoScreen.dart';
 import 'package:cattlefarming/Screens/signInScreen.dart';
-import 'package:cattlefarming/Screens/signupScreen.dart';
-import 'package:cattlefarming/Screens/temperatureScreen.dart';
-import 'package:cattlefarming/Screens/transactionScreen.dart';
-import 'package:cattlefarming/Screens/vaccineCourse.dart';
-import 'package:cattlefarming/Screens/vaccineInjectScreen.dart';
-import 'package:cattlefarming/Screens/viewCattleScreen.dart';
-import 'package:cattlefarming/Screens/viewCustomers.dart';
-import 'package:cattlefarming/Screens/viewFodderStockScreen.dart';
-import 'package:cattlefarming/Screens/viewMilkRecord.dart';
-import 'package:cattlefarming/Screens/viewOtherFarms.dart';
-import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
-import 'package:cattlefarming/Screens/viewWaightScreen.dart';
-import 'package:cattlefarming/Screens/weightScreen.dart';
-import 'package:flutter/material.dart';
 import 'package:cattlefarming/Screens/splashScreen.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: SignIn(),
+      home: HomeScreen(),
     );
   }
 }

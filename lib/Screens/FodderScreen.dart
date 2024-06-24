@@ -2,7 +2,7 @@ import 'package:cattlefarming/Screens/consumeFodderScreen.dart';
 import 'package:cattlefarming/Screens/fodderStockScreen.dart';
 import 'package:cattlefarming/Screens/milkInventoryDetails.dart';
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
-import 'package:cattlefarming/Screens/viewFodderStockScreen.dart';
+import 'package:cattlefarming/Screens/viewRemainingFodderScreen.dart';
 import 'package:cattlefarming/Screens/viewMilkRecord.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
@@ -47,6 +47,9 @@ class FodderScreen extends StatelessWidget {
                           "assets/images/cattlefodder.png",
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text(
                         "Consume Fodder",
                         style: TextStyle(fontSize: 18),
@@ -79,8 +82,11 @@ class FodderScreen extends StatelessWidget {
                           "assets/images/Shoping Card rack.png",
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text(
-                        "Fodder Stock",
+                        "Remaining Fodder",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],

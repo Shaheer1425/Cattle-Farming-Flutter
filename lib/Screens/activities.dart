@@ -1,4 +1,5 @@
 import 'package:cattlefarming/Screens/vaccineCourse.dart';
+import 'package:cattlefarming/Screens/vaccineInjectScreen.dart';
 import 'package:cattlefarming/Screens/viewTemperatureScreen.dart';
 import 'package:cattlefarming/Screens/viewWaightScreen.dart';
 import 'package:flutter/material.dart';
@@ -71,11 +72,11 @@ class ActivitiesScreen extends StatelessWidget {
                         width: 100,
                         height: 70,
                         child: Image.asset(
-                          "assets/images/weighticon.png",
+                          "assets/images/measure.png",
                         ),
                       ),
                       Text(
-                        "Weight",
+                        "Cattle Metrics",
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -94,7 +95,7 @@ class ActivitiesScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => VaccineCourseScreen())),
+                    builder: (context) => VaccineInjectScreen())),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
