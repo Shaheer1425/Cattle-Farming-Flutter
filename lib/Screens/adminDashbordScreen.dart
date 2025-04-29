@@ -17,7 +17,7 @@ class AdminDashbordScreen extends StatefulWidget {
 class _AdminDashbordScreenState extends State<AdminDashbordScreen> {
   ApiHandler apiHandler = ApiHandler();
   List<FarmRecord> records = [];
-  String adminName = 'Mazhar';
+  String adminName = 'Shaheer';
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _AdminDashbordScreenState extends State<AdminDashbordScreen> {
               padding: const EdgeInsets.only(
                   left: 40, right: 40.0, top: 30, bottom: 20),
               child: Text(
-                'Make Cattle Farming smart with your knowledge!',
+                'Make Smart Cattle Farming smart with your knowledge!',
                 style: TextStyle(fontSize: 18),
               ),
             ),

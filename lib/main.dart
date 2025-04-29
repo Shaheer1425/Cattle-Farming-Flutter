@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Smart Cattle Management System',
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
           hintStyle: TextStyle(
@@ -27,11 +27,12 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Jomolhari',
         colorScheme: ColorScheme.light(
-          primary: Color(0xFF039BA8), // or any color you want
+          primary: Color.fromARGB(255, 15, 172, 1), // or any color you want
         ),
+        //colorscheme
         appBarTheme: AppBarTheme(
           iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: Color(0xFF039BA8), // or any color you want
+          backgroundColor: Color.fromARGB(255, 7, 180, 1), // or any color you want
         ),
         iconTheme: IconThemeData(
           color: Colors.white, // or any color you want

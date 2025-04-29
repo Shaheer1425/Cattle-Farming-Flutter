@@ -12,17 +12,17 @@ class _ViewOtherFarmsScreenState extends State<ViewOtherFarmsScreen> {
   List<OtherFarmRecord> otherFarmList = [
     OtherFarmRecord(
         FarmName: 'Farm 1',
-        managerName: 'Ali Hassan',
+        managerName: 'Ali ',
         contact: '03123456789',
         totalCattles: 112),
     OtherFarmRecord(
         FarmName: 'Farm 2',
-        managerName: 'Asad Abbas',
+        managerName: 'Asad ',
         contact: '03052567893',
         totalCattles: 140),
     OtherFarmRecord(
         FarmName: 'Farm 3',
-        managerName: 'Azhar Iqbal',
+        managerName: 'Azhar ',
         contact: '03336436757',
         totalCattles: 65),
   ];

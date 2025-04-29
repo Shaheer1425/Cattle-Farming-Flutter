@@ -17,7 +17,7 @@ import 'package:cattlefarming/Models/weightClass.dart';
 import 'package:http/http.dart' as http;
 
 class ApiHandler {
-  static String base_url = 'http://192.168.239.224/CattleFarmingAPI/api/';
+  static String base_url = 'http://192.168.100.25/CattleFarmingAPI/api/';
   //ApiHandler(this.baseUrl);
   //static String? _baseUrl;
 
